@@ -17,6 +17,7 @@
 # ==============================================================================
 """Functions for drawing publication quality figures"""
 import numpy as np
+import pandas as pd
 import seaborn as sns
 import plotly.express as px
 import plotly.graph_objs as go
@@ -25,9 +26,21 @@ import matplotlib
 from statannot import add_stat_annotation
 from utils.misc_utils import *
 from utils.traj_utils import *
+from math import ceil, sqrt
+import networkx as nx
+from itertools import combinations
+import community as community_louvain  # Louvain algorithm
+import random
+from scipy.spatial import ConvexHull
+from matplotlib.patches import Polygon
 from adjustText import adjust_text
 import cmcrameri.cm as cmc
+from matplotlib.patches import PathPatch
+from matplotlib.path import Path
+from matplotlib.gridspec import GridSpec
+from collections.abc import Iterable
 
+color_list = ('#F06293', '#AF79C4', '#5B6BBF', '#FFC11C', '#D1917C', '#4DB6AC', '#00BCD4', '#A1877E', '#BCBCBC', '#8F96A8', '#B02E8B', '#EB974D')
 def format_figure(ax,title=None,xlabel=None,ylabel=None,despine=True,detick=False):
     # Nikita's function to format figures visually appealing
     if title != None:
@@ -239,51 +252,85 @@ def draw_pca_space(df, path, file_name, condition_name, x_name, y_name, xmin, xm
     plt.clf()
     plt.close()
 
-def draw_umap_space(df, path, file_name, condition_name, label_name, colors, dot_size, x_name, y_name):
+def draw_umap_space(
+    df, path, file_name, condition_name, colors, dot_size, x_name, y_name,
+    umap_size=(2.4, 2.4),      # fixed size of UMAP panel (inches)
+    legend_width=1.6,          # width of legend panel (inches)
+    legend_fontsize=5
+):
+    # colormap
+    cats = pd.Categorical(df[condition_name])
+    n_cat = len(cats.categories)
+    if isinstance(colors, Iterable) and not isinstance(colors, str):
+        cmap = ListedColormap(list(colors)[:n_cat])
+    else:
+        cmap = colors
+
+    # fixed axis ranges
+    xmin = math.floor(df[x_name].min()) - 1
+    xmax = math.ceil(df[x_name].max()) + 1
+    ymin = math.floor(df[y_name].min()) - 1
+    ymax = math.ceil(df[y_name].max()) + 1
+
+    # style
+    font = {"family": "arial", "weight": "normal", "size": 8}
+    matplotlib.rc("font", **font)
+    matplotlib.rcParams["axes.linewidth"] = 0.25
+    matplotlib.rcParams["lines.linewidth"] = 1
+
+    # figure with 2 panels: left UMAP (fixed), right legend
+    fig = plt.figure(figsize=(umap_size[0] + legend_width, umap_size[1]))
+    gs = GridSpec(1, 2, figure=fig, width_ratios=[umap_size[0], legend_width], wspace=0.05)
+    ax = fig.add_subplot(gs[0, 0])
+    ax_leg = fig.add_subplot(gs[0, 1])
+    ax_leg.axis("off")
+
+    scatter = ax.scatter(
+        df[x_name], df[y_name],
+        c=cats.codes,
+        s=dot_size,
+        edgecolor="none",
+        cmap=cmap
+    )
+
+    ax.set_xlim(xmin, xmax)
+    ax.set_ylim(ymin, ymax)
+    format_figure(ax, title=None, xlabel="UMAP1", ylabel="UMAP2", despine=True, detick=True)
+
+    handles, _ = scatter.legend_elements(num=None)
+    labels = [str(x) for x in cats.categories]
+    ax_leg.legend(
+        handles, labels,
+        loc="upper left",
+        fontsize=legend_fontsize,
+        frameon=False,
+        markerscale=0.8,
+        borderaxespad=0.0
+    )
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.tick_params(axis="both", which="both", length=0, labelbottom=False, labelleft=False)
+
+    os.makedirs(path, exist_ok=True)
+    plt.savefig(os.path.join(path, f"{file_name}.png"), dpi=300, bbox_inches="tight")
+    os.makedirs(os.path.join(path, "svg"), exist_ok=True)
+    plt.savefig(os.path.join(path, "svg", f"{file_name}.svg"), bbox_inches="tight")
+    plt.clf()
+    plt.close()
+
+def draw_scatter_plot(df, path, file_name, figsize, condition_name, colors, dot_size, x_name, y_name, texts=None, invert_y=False):
     ################## Draw interactive version of state space #######################
 
     #colors = ('#CC6677', '#6699CC', '#44AA99', '#DDCC77', '#88CCEE', '#117733', '#332288', '#AA4499', '#999933', '#882255', '#661100', '#888888')
     from collections.abc import Iterable
     if isinstance(colors, Iterable):
-        cmap = ListedColormap(colors[:pd.unique(df[condition_name]).shape[0]])
+        cmap = ListedColormap(colors[:np.unique(df[condition_name]).shape[0]])
     else:
         cmap=colors
     xmin = math.floor(df[x_name].min()) - 1
     xmax = math.ceil(df[x_name].max()) + 1
     ymin = math.floor(df[y_name].min()) - 1
     ymax = math.ceil(df[y_name].max()) + 1
-
-    # cmap = plt.cm.get_cmap('Set1')
-    fig = px.scatter(
-        data_frame=df,
-        x=x_name,
-        y=y_name,
-        color=condition_name,
-        # color_discrete_sequence = ['red','green','blue','yellow'], # label이 숫자나 bool 형태이면 color 적용이 안되는 버그가 있음
-        opacity=0.9,
-        template='plotly_white',
-        # ggplot2, seaborn, simple_white, plotly, plotly_white, plotly_dark, presentation, xgridoff, ygridoff, gridon, none
-        # symbol = 'TrackID',
-        # symbol_map = {'Control':0,'Clone A':1,'Clone B':2, 'Clone C':3},
-        # title='state space',
-        labels={x_name: 'UMAP1', y_name: 'UMAP2', },
-        hover_data={label_name: True,
-                    condition_name:True,
-                    },
-        hover_name=df.index,
-
-        range_x=[xmin, xmax],
-        range_y=[ymin, ymax],
-
-        height=1000,
-        width=2000,
-    )
-
-    fig.update_traces(marker=dict(size=3),
-                      # line = dict(width=1, color='DarkSlateGrey')) ,
-                      # selector=dict(mode='markers')
-                      )
-    fig.write_html(path + '%s.html' % file_name)
 
     ################## Draw figure version of state space #######################
 
@@ -294,7 +341,7 @@ def draw_umap_space(df, path, file_name, condition_name, label_name, colors, dot
     matplotlib.rcParams['axes.linewidth'] = 0.25  # Visually good to have font size : line width = 8 : 0.25
     matplotlib.rcParams['lines.linewidth'] = 1
 
-    fig, ax = plt.subplots(figsize=(2, 2))
+    fig, ax = plt.subplots(figsize=figsize)
     #plt.figure(figsize=(15, 10))
     scatter = ax.scatter(df[x_name], df[y_name],
                           c=df[condition_name].replace(list(np.unique(df[condition_name])),
@@ -306,11 +353,26 @@ def draw_umap_space(df, path, file_name, condition_name, label_name, colors, dot
     plt.xlim(xmin, xmax)
     plt.ylim(ymin, ymax)
 
-    format_figure(ax, title=None, xlabel='UMAP1', ylabel='UMAP2', despine=True, detick=True)
-    handles, labels = scatter.legend_elements(num=None)
-    plt.legend(handles=handles, labels=list(np.unique(df[condition_name])),
-               bbox_to_anchor=(0.9, 1.1), loc=2, borderaxespad=0.0,
-               fontsize=3, frameon=False, markerscale=0.3)
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['bottom'].set_visible(False)
+    ax.spines['left'].set_visible(False)
+
+    plt.tick_params(left=False, right=False, labelleft=False,
+                    labelbottom=False, bottom=False)
+
+
+    if np.all(texts) != None:
+        for idx, text in enumerate(texts):
+            plt.text(x=text[0], y=text[1], s=idx, fontsize=8, weight='normal', ha='center', va='center', color='0.2')
+    else:
+        handles, labels = scatter.legend_elements(num=None)
+        plt.legend(handles=handles, labels=list(np.unique(df[condition_name])),
+                   bbox_to_anchor=(0.9, 1.1), loc=2, borderaxespad=0.0,
+                   fontsize=3, frameon=False, markerscale=0.3)
+
+    if invert_y == True:
+        ax.invert_yaxis()
 
     # bbox_to_anchor is position of labels (x, y) (increasing x moves right, increasing y moves top)
     # frameon=False removes bounding box around label
@@ -319,12 +381,11 @@ def draw_umap_space(df, path, file_name, condition_name, label_name, colors, dot
 
     plt.savefig(path + '%s.png' % file_name, dpi=300)
 
-    if not os.path.isdir(path + 'svg/'):  # Returns Boolean (if UMAP_fig folder doesn't exist, False)
-        os.makedirs(path + 'svg/')
-    plt.savefig(path + 'svg/%s.svg' % file_name)
-    plt.clf()
-    plt.close()
-
+    # if not os.path.isdir(path + 'svg/'):  # Returns Boolean (if UMAP_fig folder doesn't exist, False)
+    #     os.makedirs(path + 'svg/')
+    # plt.savefig(path + 'svg/%s.svg' % file_name)
+    # plt.clf()
+    # plt.close()
 
 def draw_contour(df, path, file_name, condition_name, colors, x_name='PC1', y_name='PC2', bin_num=50, num_contours=6):
     # color_list = ['Reds', 'Greens', 'Blues', 'Greys', 'Oranges', 'Purples', 'YlOrBr', 'YlOrRd', 'OrRd', 'PuRd',
@@ -519,130 +580,140 @@ def draw_clustermap(data, path, file_name, vmax=None, annot=False, metric='eucli
     plt.clf()
     plt.close()
 
-def draw_cluster_distribution_heatmap(df, path, file_name, condition_name, cluster_type, vmax=None, annot=False, metric='euclidean',
-                                      transpose=False, row_cluster=True, col_cluster=True, cmap='OrRd', figsize=(4,4)):
-    if vmax!=None:
-        vmax=vmax
+def draw_cluster_distribution_heatmap(
+    df,
+    path,
+    file_name,
+    condition_name,
+    cluster_type,
+    vmax=None,
+    annot=False,
+    metric='euclidean',
+    transpose=False,
+    row_cluster=True,
+    col_cluster=True,
+    cmap='OrRd',
+    figsize=(4, 4),
+):
+    from scipy.cluster.hierarchy import linkage
+    from scipy.spatial.distance import pdist
 
-    group_clone = pd.DataFrame(df.groupby([condition_name, cluster_type]).size())
-    # group_clone = group_clone[0].groupby(level=0, group_keys=False).apply(lambda x: 100 * x / x.sum())
-    # group_clone = group_clone.unstack(level=0)
-    # group_clone[np.isnan(group_clone)] = 0  # fill na with 0 (np.isnan() returns bool array, which is True whenever nan )
+    counts = df.groupby([condition_name, cluster_type]).size()
 
-    group_clone_size = group_clone[0].groupby(level=0, group_keys=False).apply(lambda x: x)
-    group_clone_size = group_clone_size.unstack(level=0)
-    group_clone_size[np.isnan(group_clone_size)] = 0
-    group_clone_size_T = group_clone_size.T
-    for cluster in sorted(list(pd.unique(df[cluster_type]))):
-        if cluster in group_clone_size_T.columns:
-            continue
-        else:
-            group_clone_size_T.insert(loc=int(cluster), column=cluster, value=0)
-            group_clone_size_T.sort_index(axis=1, inplace=True)
+    group_clone_size = counts.unstack(level=0).fillna(0)
+    group_clone = counts.groupby(level=0, group_keys=False).apply(lambda x: 100 * x / x.sum())
+    group_clone = group_clone.unstack(level=0).fillna(0)
 
-    group_clone_size = group_clone_size_T.T
-
-    group_clone_size.columns.name = None  # Remove name of column = 'Type'
-    group_clone_size.index.name = None  # Remove name of index = 'tskmeans'
-
-    group_clone_size = group_clone_size.T
-
-    group_clone = group_clone[0].groupby(level=0, group_keys=False).apply(lambda x: 100 * x / x.sum())
-    group_clone = group_clone.unstack(level=0)
-    group_clone[np.isnan(group_clone)] = 0
-    group_clone_T = group_clone.T
-    for cluster in sorted(list(pd.unique(df[cluster_type]))):
-        if cluster in group_clone_T.columns:
-            continue
-        else:
-            group_clone_T.insert(loc=int(cluster), column=cluster, value=0)
-            group_clone_T.sort_index(axis=1, inplace=True)
-
-    group_clone = group_clone_T.T
-
-    group_clone.columns.name = None  # Remove name of column = 'Type'
-    group_clone.index.name = None # Remove name of index = 'tskmeans'
+    clusters = sorted(pd.unique(df[cluster_type]))
 
     group_clone = group_clone.T
+    group_clone_size = group_clone_size.T
 
+    for cluster in clusters:
+        if cluster not in group_clone.columns:
+            group_clone[cluster] = 0
+        if cluster not in group_clone_size.columns:
+            group_clone_size[cluster] = 0
 
-    font = {'family': 'arial',
-            'weight': 'normal',
-            'size': 8}
-    matplotlib.rc('font', **font)
-    #matplotlib.rcParams['axes.linewidth'] = 0.25  # Visually good to have font size : line width = 8 : 0.25
-    #matplotlib.rcParams['lines.linewidth'] = 1
-    if transpose == True:
+    group_clone = group_clone.reindex(sorted(group_clone.columns), axis=1)
+    group_clone_size = group_clone_size.reindex(sorted(group_clone_size.columns), axis=1)
+
+    group_clone.columns.name = None
+    group_clone.index.name = None
+    group_clone_size.columns.name = None
+    group_clone_size.index.name = None
+
+    if transpose:
         group_clone = group_clone.T
         group_clone_size = group_clone_size.T
 
-    kws = dict(cbar_kws=dict(ticks=[0, math.floor(np.max(np.max(group_clone))/2), math.floor(np.max(np.max(group_clone)))], orientation='horizontal'), vmin=0)
-    if vmax != None:
-        kws = dict(cbar_kws=dict(ticks=[0, vmax], orientation='horizontal'), vmin=0)
+    font = {
+        'family': 'arial',
+        'weight': 'normal',
+        'size': 8,
+    }
+    matplotlib.rc('font', **font)
 
-    # Tick number = [0, max/2, max] (you have to set vmin=0 otherwise 0 tick will not show up)
-    if metric =='euclidean':
-        method = 'ward'
-    elif metric=='correlation':
-        method = 'average'
-    g=sns.clustermap(group_clone, annot=False, cmap='OrRd', metric=metric, method=method, col_cluster=col_cluster, row_cluster=row_cluster, vmax=vmax,
-    #cbar_pos=(1, 0.2, 0.03, 0.8),
-    linewidths=0.5, linecolor='black',
-    alpha=0.7,
-    **kws,
-    figsize=figsize,
+    data_max = float(np.nanmax(group_clone.values)) if group_clone.size else 0
+    if vmax is None:
+        ticks = [0, math.floor(data_max / 2), math.floor(data_max)]
+    else:
+        ticks = [0, vmax]
+
+    kws = dict(
+        cbar_kws=dict(ticks=ticks, orientation='horizontal'),
+        vmin=0,
     )
 
-    row_order = g.dendrogram_row.reordered_ind if row_cluster else range(len(group_clone.index))
-    col_order = g.dendrogram_col.reordered_ind if col_cluster else range(len(group_clone.columns))
-    group_clone_size = group_clone_size.iloc[row_order, col_order]
+    if metric == 'euclidean':
+        method = 'ward'
+    elif metric == 'correlation':
+        method = 'average'
+    else:
+        method = 'average'
 
-    plt.clf()
+    row_linkage = None
+    col_linkage = None
+
+    if row_cluster and group_clone.shape[0] > 1:
+        row_dist = pdist(group_clone.values, metric=metric)
+        row_linkage = linkage(row_dist, method=method)
+
+    if col_cluster and group_clone.shape[1] > 1:
+        col_dist = pdist(group_clone.values.T, metric=metric)
+        col_linkage = linkage(col_dist, method=method)
 
     if annot == 'size':
-        annot = group_clone_size
-        fmt = 'G'
-    if annot == True:
+        annot_data = group_clone_size
+        fmt = 'g'
+    elif annot is True:
+        annot_data = True
         fmt = '.1f'
-    if annot == False:
-        fmt = None
+    else:
+        annot_data = False
+        fmt = ''
 
-    g = sns.clustermap(group_clone, annot=annot, fmt=fmt, annot_kws={"fontsize":12},  # .1f
-                       cmap=cmap, method='ward', col_cluster=col_cluster, row_cluster=row_cluster, vmax=vmax,
-                       # cbar_pos=(1, 0.2, 0.03, 0.8),
-                       linewidths=0.5, linecolor='black', alpha=0.7,
-                       **kws,
-                       figsize=figsize,
-                       )
+    g = sns.clustermap(
+        group_clone,
+        annot=annot_data,
+        fmt=fmt,
+        annot_kws={"fontsize": 12},
+        cmap=cmap,
+        metric=metric,
+        method=method,
+        row_cluster=row_cluster,
+        col_cluster=col_cluster,
+        row_linkage=row_linkage,
+        col_linkage=col_linkage,
+        vmax=vmax,
+        linewidths=0.5,
+        linecolor='black',
+        alpha=0.7,
+        **kws,
+        figsize=figsize,
+    )
 
     if group_clone.shape[0] <= 2:
         g.ax_row_dendrogram.set_visible(False)
-    # cbar_pos = (left, bottom, width, height)
+
     g.ax_heatmap.set_xticklabels(g.ax_heatmap.get_xmajorticklabels(), fontsize=16)
     g.ax_heatmap.set_yticklabels(g.ax_heatmap.get_ymajorticklabels(), fontsize=16, va='center', rotation=0)
-    # Set tick label size = 16, and center y tick labels (centering x tick labels make it strange)
+    #g.ax_heatmap.set_yticks(np.arange(group_clone.shape[0]) + 0.5)
+    #g.ax_heatmap.set_yticklabels(group_clone.index, fontsize=16, rotation=0)
 
-    x0, _y0, _w, _h = g.cbar_pos
-    g.ax_cbar.set_position([0, 0.9, g.ax_row_dendrogram.get_position().width, 0.02])
-    # Set position of colorbar
-
+    g.ax_cbar.set_position([0, 0.96, g.ax_row_dendrogram.get_position().width, 0.02])
     g.ax_cbar.set_title('Occurrence (%)', fontsize=12)
     g.ax_cbar.tick_params(axis='x', length=10, labelsize=12)
-    # Set colorbar title and font size
 
-    for spine in g.ax_cbar.spines:
-        #g.ax_cbar.spines[spine].set_color('crimson')
-        g.ax_cbar.spines[spine].set_linewidth(0.5)
-    # Set bounding box line width of colorbar
+    for spine in g.ax_cbar.spines.values():
+        spine.set_linewidth(0.5)
 
-    #plt.xlabel('%s' % cluster_type)
-    #plt.ylabel('%s' % condition_name)
+    plt.savefig(path + f'{file_name}.png', dpi=300, bbox_inches='tight')
 
-    plt.savefig(path + '%s.png' % (file_name), dpi=300, bbox_inches='tight')
-
-    if not os.path.isdir(path + 'svg/'):  # Returns Boolean (if UMAP_fig folder doesn't exist, False)
-        os.makedirs(path + 'svg/')
-    plt.savefig(path + 'svg/%s.svg' % (file_name), bbox_inches='tight')
+    svg_dir = path + 'svg/'
+    if not os.path.isdir(svg_dir):
+        os.makedirs(svg_dir)
+    plt.savefig(svg_dir + f'{file_name}.svg', bbox_inches='tight')
 
     plt.clf()
     plt.close()
@@ -1193,7 +1264,40 @@ def draw_2d_trajectory_arrow(path, df, duration, feature_name, label_name='pseud
         plt.clf()
         plt.close()
 
-def draw_2D_trajectories_one_figure(df_duration, df, path, duration=20, n_examples=30, label_name='kmeans', feature_name=['Rotated_X', 'Rotated_Y'], lim=300):
+def add_scale_bar(ax, length=50, loc='lower right',
+                  pad=0.08, bar_height=0.03, color='black', linewidth=2,
+                  fontsize=8):
+    x0, x1 = ax.get_xlim()
+    y0, y1 = ax.get_ylim()
+
+    x_range = x1 - x0
+    y_range = y1 - y0
+
+    if loc == 'lower right':
+        x_start = x1 - pad * x_range - length
+        x_end = x1 - pad * x_range
+        y = y0 + pad * y_range
+        va = 'top'
+        text_y = y - bar_height * y_range
+
+    elif loc == 'lower left':
+        x_start = x0 + pad * x_range
+        x_end = x_start + length
+        y = y0 + pad * y_range
+        va = 'top'
+        text_y = y - bar_height * y_range
+
+    else:
+        raise ValueError("loc must be 'lower right' or 'lower left'")
+
+    label = '%s µm'%length
+    ax.plot([x_start, x_end], [y, y], color=color, linewidth=linewidth, solid_capstyle='butt')
+    ax.text((x_start + x_end) / 2, text_y, label, ha='center', va=va,
+            color=color, fontsize=fontsize)
+
+def draw_2D_trajectories_one_figure(df_duration, df, path, duration=20, n_examples=30,
+                                    label_name='kmeans', feature_name=['Rotated_X', 'Rotated_Y'],
+                                    scale_bar_um=50, lim=300):
     ''' Plots example trajectories per condition
         Parameters:
         ----------
@@ -1243,7 +1347,7 @@ def draw_2D_trajectories_one_figure(df_duration, df, path, duration=20, n_exampl
             raise ValueError('%s has less than %s trajectories'%(cluster, n_examples))
 
         for i, traj_idx in enumerate(random_traj_idxs):
-            traj = df_part[duration * traj_idx:duration * (traj_idx + 1)][['x', 'y']].values
+            traj = df_part[duration * traj_idx:duration * (traj_idx + 1)][feature_name].values
             plt.plot(traj[:, 0] - traj[0][0], traj[:, 1] - traj[0][1], '-', color=currentColors[i], linewidth=2, )
             # plt.title( 'idx: ' + str(traj_idx) + '  ' +'  label: ' + str(traj_df[label_name].values[0]))
             plt.xlim(-lim, lim)
@@ -1257,6 +1361,16 @@ def draw_2D_trajectories_one_figure(df_duration, df, path, duration=20, n_exampl
 
         plt.tick_params(left=False, right=False, labelleft=False,
                         labelbottom=False, bottom=False)
+        if scale_bar_um is not None:
+            add_scale_bar(
+                ax,
+                length=scale_bar_um,
+                loc='lower right',
+                color='black',
+                linewidth=2,
+                fontsize=8
+            )
+
         plt.axis('off')
         if not os.path.isdir(path + '%s_trajectory/'%feature_name):  # Returns Boolean (if UMAP_fig folder doesn't exist, False)
             os.makedirs(path + '%s_trajectory/'%feature_name)
@@ -1290,6 +1404,7 @@ def draw_2D_trajectories_one_figure(df_duration, df, path, duration=20, n_exampl
         # plt.savefig(path + '%s_trajectory/%s.png' % (feature_name, cluster), dpi=300, bbox_inches='tight')
         # plt.clf()
         # plt.close()
+
 
 def draw_2D_trajectory(trajectories, path, folder_name, lim, df=None, condition_name1=None):
 
@@ -1774,7 +1889,7 @@ def draw_feature_bar_graph(df, path, feature_list, condition_name, test_type, bo
         plt.clf()
         plt.close()
 
-def draw_custom_box_plot(dict_datasets, path, file_name, colors, strip_plot, test, pvalue=True, figsize=(2,2)):
+def draw_custom_box_plot(dict_datasets, path, file_name, colors, strip_plot, test, pvalue=True, return_sig=False, figsize=(2,2), vmax=None, vmin=None):
     font = {'family': 'arial',
             'weight': 'normal',
             'size': 8}
@@ -1793,7 +1908,7 @@ def draw_custom_box_plot(dict_datasets, path, file_name, colors, strip_plot, tes
 
     # format_figure(ax, title=None, xlabel=None, ylabel=None, despine=True, detick=True)
     # ax.axhline(max_entropy, linestyle='--', linewidth=1, color='red')
-    # plt.xticks(plt.xticks()[0], sorted_keys, fontsize=12, fontdict={'weight': 'bold'})
+    # plt.xticks(plt.xticks()[0], sorted_keys, fontsize=12, fontdict={'weight': 'normal'})
     # ax.set_xticks(plt.xticks()[0], sorted_keys, fontsize=4)
     for axis in ['bottom', 'left']:
         ax.spines[axis].set_linewidth(1)
@@ -1802,13 +1917,18 @@ def draw_custom_box_plot(dict_datasets, path, file_name, colors, strip_plot, tes
     ax.spines['right'].set_visible(False)
 
     ax.tick_params(width=1, color='0.2')
-    #ax.set_ylabel(feature_name, fontsize=8, weight='bold')
+    #ax.set_ylabel(feature_name, fontsize=8, weight='normal')
     plt.xticks(plt.xticks()[0], sorted_keys, fontsize=8, rotation=35, rotation_mode='anchor', ha='right', color='0.2',
-               weight='bold')
-    plt.yticks(fontsize=8, color='0.2', weight='bold')
+               weight='normal')
+    plt.yticks(fontsize=8, color='0.2', weight='normal')
+
+    if (vmax != None) & (vmin == None):
+        plt.ylim(0, vmax)
+    if (vmin != None):
+        plt.ylim(vmin, vmax)
 
     if pvalue==True:
-        pairs, p_values, cohen_ds = get_various_statistics(dict_datasets, test=test)
+        pairs, p_values, cohen_ds = get_various_statistics(dict_datasets, test=test, return_sig=return_sig)
         plt.title('%s: %s, %s' % (pairs, p_values, cohen_ds), fontsize=4)
 
     elif pvalue==False:
@@ -1822,7 +1942,7 @@ def draw_custom_box_plot(dict_datasets, path, file_name, colors, strip_plot, tes
     plt.clf()
     plt.close()
 
-def draw_custom_bar_plot(dict_datasets, path, file_name, colors, strip_plot, estimator='mean', vmax=None, vmin=None, pvalue=True, test='mann-whitney', figsize=(2,2)):
+def draw_custom_bar_plot(dict_datasets, path, file_name, colors, strip_plot, estimator='mean', vmax=None, vmin=None, pvalue=True, return_sig=False, test='mann-whitney', figsize=(2,2)):
     font = {'family': 'arial',
                 'weight': 'normal',
                 'size': 8}
@@ -1846,7 +1966,7 @@ def draw_custom_bar_plot(dict_datasets, path, file_name, colors, strip_plot, est
 
     #format_figure(ax, title=None, xlabel=None, ylabel=None, despine=True, detick=True)
     #ax.axhline(max_entropy, linestyle='--', linewidth=1, color='red')
-    #plt.xticks(plt.xticks()[0], sorted_keys, fontsize=12, fontdict={'weight': 'bold'})
+    #plt.xticks(plt.xticks()[0], sorted_keys, fontsize=12, fontdict={'weight': 'normal'})
     #ax.set_xticks(plt.xticks()[0], sorted_keys, fontsize=4)
     for axis in ['bottom', 'left']:
         ax.spines[axis].set_linewidth(1)
@@ -1855,8 +1975,8 @@ def draw_custom_bar_plot(dict_datasets, path, file_name, colors, strip_plot, est
     ax.spines['right'].set_visible(False)
 
     ax.tick_params(width=1, color='0.2')
-    plt.xticks(plt.xticks()[0], sorted_keys, fontsize=8, rotation=35, rotation_mode='anchor', ha='right', color='0.2', weight='bold')
-    plt.yticks(fontsize=8,  color='0.2', weight='bold')
+    plt.xticks(plt.xticks()[0], sorted_keys, fontsize=8, rotation=35, rotation_mode='anchor', ha='right', color='0.2', weight='normal')
+    plt.yticks(fontsize=8,  color='0.2', weight='normal')
     #plt.ylabel('%s' % feature_name, fontsize=4)
     # category labels
     if (vmax!=None)&(vmin==None):
@@ -1867,7 +1987,7 @@ def draw_custom_bar_plot(dict_datasets, path, file_name, colors, strip_plot, est
     plt.grid(False)
 
     if pvalue == True:
-        pairs, p_values, cohen_ds = get_various_statistics(dict_datasets, test=test)
+        pairs, p_values, cohen_ds = get_various_statistics(dict_datasets, test=test, return_sig=return_sig)
         plt.title('%s: %s, %s' % (pairs, p_values, cohen_ds), fontsize=4)
 
     elif pvalue == False:
@@ -1881,7 +2001,167 @@ def draw_custom_bar_plot(dict_datasets, path, file_name, colors, strip_plot, est
     plt.clf()
     plt.close()
 
-def draw_custom_violin_plot(dict_datasets, path, file_name, colors, test, pvalue=True, figsize=(2,2)):
+def draw_double_bar_plot(df, path, file_name, condition_name, conditions, category_name, categories, y, other_category=None,
+                         other_category_colors=None, estimator='mean', error_type='std', condition_colors=('#888888', '#CC6677'),
+                         test='mann-whitney', return_sig=False, figsize=(2,2)):
+    bar_width = 0.3  # Width of bars
+
+    scatter1 = []
+    scatter2 = []
+    statistics1 = []
+    statistics2 = []
+    error1 = []
+    error2 = []
+
+    p_values = []
+    cohens_ds = []
+
+    other_categories1 = []
+    other_categories2 = []
+    for category in categories:
+        df_part = df[df[category_name]==category].reset_index(drop=True)
+        values1 = df_part[df_part[condition_name]==conditions[0]][y].values
+        values2 = df_part[df_part[condition_name]==conditions[1]][y].values
+        scatter1.append(values1)
+        scatter2.append(values2)
+
+        if other_category != None:
+            other_category1 = df_part[df_part[condition_name]==conditions[0]][other_category].values
+            other_category2 = df_part[df_part[condition_name] == conditions[1]][other_category].values
+            other_categories1.append(other_category1)
+            other_categories2.append(other_category2)
+
+        stattest_dataset = {}
+        stattest_dataset[conditions[0]] = values1
+        stattest_dataset[conditions[1]] = values2
+        _, p_value, cohens_d = get_various_statistics(stattest_dataset, test=test, return_sig=return_sig)
+        p_values.append(p_value[0])
+        cohens_ds.append(cohens_d[0])
+        if estimator == 'mean':
+            stats1, stats2 = np.mean(values1), np.mean(values2)
+        elif estimator == 'median':
+            stats1, stats2 = np.median(values1), np.median(values2)
+        statistics1.append(stats1)
+        statistics2.append(stats2)
+
+
+        if error_type == 'std':
+            err1, err2 = np.std(values1), np.std(values2)
+        elif error_type == 'sem':
+            err1, err2 = stats.sem(values1), stats.sem(values2)
+        elif error_type == 'ci_norm':
+            interval1 = stats.norm.interval(confidence=0.95, loc=np.mean(values1), scale=stats.sem(values1))
+            interval2 = stats.norm.interval(confidence=0.95, loc=np.mean(values2), scale=stats.sem(values2))
+            err1 = np.mean(values1) - interval1[0]
+            err2 = np.mean(values2) - interval2[0]
+        elif error_type == 'ci_t':
+            interval1 = stats.t.interval(confidence=0.95, df=values1.size - 1, loc=np.mean(values1), scale=stats.sem(values1))
+            interval2 = stats.t.interval(confidence=0.95, df=values2.size - 1, loc=np.mean(values2), scale=stats.sem(values2))
+            err1 = np.mean(values1) - interval1[0]
+            err2 = np.mean(values2) - interval2[0]
+        error1.append(err1)
+        error2.append(err2)
+
+    # X-axis positions
+    x = np.arange(len(categories))
+
+    font = {'family': 'arial',
+                    'weight': 'normal',
+                    'size': 8}
+    matplotlib.rc('font', **font)
+    matplotlib.rcParams['axes.linewidth'] = 0.25  # Visually good to have font size : line width = 8 : 0.25
+    matplotlib.rcParams['lines.linewidth'] = 1
+
+    fig, ax = plt.subplots(figsize=figsize)
+
+    bars1 = ax.bar(x - bar_width / 2, statistics1, yerr=error1, capsize=5, error_kw=dict(elinewidth=1, capthick=1,),
+                   edgecolor='0.2', lw=1, width=bar_width, label=conditions[0], color=condition_colors[0])
+    bars2 = ax.bar(x + bar_width / 2, statistics2, yerr=error2, capsize=5, error_kw=dict(elinewidth=1, capthick=1,),
+                   edgecolor='0.2', lw=1, width=bar_width, label=conditions[1], color=condition_colors[1])
+
+    plot_params={'edgecolor':'0.2', 'linewidth':0.5,}
+
+    if other_category != None:
+
+        mapping = {label: idx for idx, label in enumerate(np.unique(df[other_category]))}
+
+        for i in range(len(categories)):
+            #unique_values1, unique_idxs1 = np.unique(other_categories1[i], return_inverse=True)
+            transformed1 = np.array([mapping.get(x, np.nan) for x in other_categories1[i]]) # 's13' -> 0, 's14' -> 1
+            try:
+                cmap = ListedColormap(np.array(other_category_colors)[transformed1])
+            except:
+                cmap=None
+            x_pos1 = np.random.normal(x[i] - bar_width / 2, 1/4*bar_width/2, size = scatter1[i].shape[0])
+            ax.scatter(x_pos1, scatter1[i], marker='s', s=6,
+                       c=transformed1, **plot_params, cmap=cmap)
+            # ax.scatter(np.full_like(scatter1[i], x[i] - bar_width / 2), scatter1[i], marker='s', s=6,
+            #            c=transformed1, **plot_params, cmap=cmap)
+
+            transformed2 = np.array([mapping.get(x, np.nan) for x in other_categories2[i]])  # 's13' -> 0, 's14' -> 1
+            try:
+                cmap = ListedColormap(np.array(other_category_colors)[transformed2])
+            except:
+                cmap=None
+            x_pos2 = np.random.normal(x[i] + bar_width / 2, 1/4*bar_width/2, size=scatter2[i].shape[0])
+            ax.scatter(x_pos2, scatter2[i], marker='s', s=6,
+                       c=transformed2, **plot_params, cmap=cmap)
+
+            # ax.scatter(np.full_like(scatter2[i], x[i] + bar_width / 2), scatter2[i], marker='s', s=6,
+            #            c=transformed2, **plot_params, cmap=cmap)
+
+        import matplotlib.patches as mpatches
+        color_mapping = {label: color for label, color in zip(mapping.keys(), other_category_colors)}
+        # Create custom legend handles (list of patches)
+        legend_patches = [mpatches.Patch(color=color, label=label) for label, color in color_mapping.items()]
+
+    else:
+        for i in range(len(categories)):
+            ax.scatter(np.full_like(scatter1[i], x[i] - bar_width / 2), scatter1[i], marker='s', s=6,
+                       fc=None, **plot_params, cmap='Set1')
+            ax.scatter(np.full_like(scatter2[i], x[i] + bar_width / 2), scatter2[i], marker='s', s=6,
+                       fc=None, **plot_params, cmap='Set1')
+
+    for axis in ['bottom', 'left']:
+        ax.spines[axis].set_linewidth(1)
+        ax.spines[axis].set_color('0.2')
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+
+    ax.tick_params(width=1, color='0.2')
+
+    ax.set_xticks(x)
+    ax.set_xticklabels(categories)
+    plt.xticks(fontsize=8, rotation=35, rotation_mode='anchor', ha='right', color='0.2', weight='normal')
+    plt.yticks(fontsize=8,  color='0.2', weight='normal')
+
+
+    ax.set_ylabel('%s'%y, fontsize=8, weight='normal', color='0.2')
+    legend1 = ax.legend(frameon=False, prop={'weight': 'normal', 'size': 8}, labelcolor='0.2',loc='best')
+    if other_category != None:
+        fig.canvas.draw()  # Ensure the figure is updated
+        bbox_legend1 = legend1.get_window_extent()  # Get bounding box in display coordinates
+        bbox_legend1 = ax.transAxes.inverted().transform(bbox_legend1)  # Convert to axes coordinates
+        x0, y0 = bbox_legend1[0]  # Lower-left corner of the first legend
+        x1, y1 = bbox_legend1[1]  # High-right corner of the first legend
+
+        ax.legend(handles=legend_patches, frameon=False, prop={'weight': 'normal', 'size': 8}, labelcolor='0.2',loc='best',
+                  bbox_to_anchor=(x1+0.5, y1), bbox_transform=ax.transAxes
+                  )
+        ax.add_artist(legend1)
+
+    plt.title('%s: %s, %s' % (categories, p_values, cohens_ds), fontsize=4)
+
+    plt.grid(False)
+    plt.savefig(path + '%s.png' % file_name, dpi=300, bbox_inches='tight')
+
+    if not os.path.isdir(path + 'svg/'):  # Returns Boolean (if UMAP_fig folder doesn't exist, False)
+        os.makedirs(path + 'svg/')
+    plt.savefig(path + 'svg/%s.svg' % file_name, bbox_inches='tight')
+    plt.clf()
+    plt.close()
+
+def draw_custom_violin_plot(dict_datasets, path, file_name, colors, test, pvalue=True, return_sig=False, figsize=(2,2), vmax=None, vmin=None):
 
     font = {'family': 'arial',
             'weight': 'normal',
@@ -1899,7 +2179,7 @@ def draw_custom_violin_plot(dict_datasets, path, file_name, colors, test, pvalue
 
     # format_figure(ax, title=None, xlabel=None, ylabel=None, despine=True, detick=True)
     # ax.axhline(max_entropy, linestyle='--', linewidth=1, color='red')
-    # plt.xticks(plt.xticks()[0], sorted_keys, fontsize=12, fontdict={'weight': 'bold'})
+    # plt.xticks(plt.xticks()[0], sorted_keys, fontsize=12, fontdict={'weight': 'normal'})
     # ax.set_xticks(plt.xticks()[0], sorted_keys, fontsize=4)
 
     for axis in ['bottom', 'left']:
@@ -1909,13 +2189,18 @@ def draw_custom_violin_plot(dict_datasets, path, file_name, colors, test, pvalue
     ax.spines['right'].set_visible(False)
 
     ax.tick_params(width=1, color='0.2')
-    #ax.set_ylabel(feature_name, fontsize=8, weight='bold')
+    #ax.set_ylabel(feature_name, fontsize=8, weight='normal')
     plt.xticks(plt.xticks()[0], sorted_keys, fontsize=8, rotation=35, rotation_mode='anchor', ha='right', color='0.2',
-               weight='bold')
-    plt.yticks(fontsize=8, color='0.2', weight='bold')
+               weight='normal')
+    plt.yticks(fontsize=8, color='0.2', weight='normal')
+
+    if (vmax!=None)&(vmin==None):
+        plt.ylim(0, vmax)
+    if (vmin!=None):
+        plt.ylim(vmin, vmax)
 
     if pvalue == True:
-        pairs, p_values, cohen_ds = get_various_statistics(dict_datasets, test=test)
+        pairs, p_values, cohen_ds = get_various_statistics(dict_datasets, test=test, return_sig=return_sig)
         plt.title('%s: %s, %s' % (pairs, p_values, cohen_ds), fontsize=4)
 
     elif pvalue == False:
@@ -1929,7 +2214,8 @@ def draw_custom_violin_plot(dict_datasets, path, file_name, colors, test, pvalue
     plt.clf()
     plt.close()
 
-def draw_volcano_plot(df_p, path, file_name, z_thresh, p_thresh=-np.log(0.05), z_name='AvgZ', p_name='Adj_Logp', feature_name='Feature', figsize=(2,2)):
+def draw_volcano_plot(df_p, path, file_name, z_thresh, dot_size, p_thresh=-np.log(0.05), z_name='AvgZ', p_name='Adj_Logp', feature_name='Feature',
+                      text=True, text_z_thresh=3, text_p_thresh=40, figsize=(2,2)):
 
     def map_color(a):
         AvgZ, Adj_Logp = a
@@ -1949,7 +2235,7 @@ def draw_volcano_plot(df_p, path, file_name, z_thresh, p_thresh=-np.log(0.05), z
 
     fig, ax = plt.subplots(figsize=figsize)
 
-    ax = sns.scatterplot(data=df_p, x=z_name, y=p_name, hue='color', hue_order=['NoChange', 'Change'],
+    ax = sns.scatterplot(data=df_p, x=z_name, y=p_name, hue='color', hue_order=['NoChange', 'Change'], s=dot_size,
                          palette=['gray', 'firebrick'])
 
     for axis in ['bottom', 'left']:
@@ -1960,11 +2246,11 @@ def draw_volcano_plot(df_p, path, file_name, z_thresh, p_thresh=-np.log(0.05), z
     ax.spines['right'].set_visible(False)
 
     ax.tick_params(width=2, color='0.2')
-    plt.xticks(fontsize=16, color='0.2', weight='bold')
-    plt.yticks(fontsize=16, color='0.2', weight='bold')
+    plt.xticks(fontsize=16, color='0.2', weight='normal')
+    plt.yticks(fontsize=16, color='0.2', weight='normal')
 
-    ax.set_xlabel('Average Z score', fontsize=16, weight='bold', color='0.2')
-    ax.set_ylabel('Adjusted log 10 p-value', fontsize=16, weight='bold', color='0.2')
+    ax.set_xlabel('Average Z score', fontsize=16, weight='normal', color='0.2')
+    ax.set_ylabel('Adjusted log 10 p-value', fontsize=16, weight='normal', color='0.2')
 
     ax.axhline(p_thresh, zorder=0, color='0.2', lw=1, ls='--')
     ax.axvline(-z_thresh, zorder=0, color='0.2', lw=1, ls='--')
@@ -1972,15 +2258,17 @@ def draw_volcano_plot(df_p, path, file_name, z_thresh, p_thresh=-np.log(0.05), z
 
     ax.legend().set_visible(False)
 
-    texts = []
+    if text == True:
+        texts = []
 
-    for i in range(df_p.shape[0]):
-        if abs(df_p[z_name].iloc[i]) > z_thresh and df_p[p_name].iloc[i] > p_thresh:
-            texts.append(
-                plt.text(x=df_p[z_name].iloc[i], y=df_p[p_name].iloc[i], s=df_p[feature_name].iloc[i], fontsize=8,
-                         weight='bold', color='0.2'))
-    if (df_p['color'] == 'Change').any():  # At least one feature that 'changed'
-        adjust_text(texts, arrowprops=dict(arrowstyle='-', color='0.2'))
+        for i in range(df_p.shape[0]):
+            if (abs(df_p[z_name].iloc[i]) > text_z_thresh and df_p[p_name].iloc[i] > p_thresh) or (abs(df_p[z_name].iloc[i]) > z_thresh and df_p[p_name].iloc[i] > text_p_thresh):
+                texts.append(
+                    plt.text(x=df_p[z_name].iloc[i], y=df_p[p_name].iloc[i], s=df_p[feature_name].iloc[i], fontsize=8,
+                             weight='normal', color='0.2'))
+
+        if (df_p['color'] == 'Change').any():  # At least one feature that 'changed'
+            adjust_text(texts, arrowprops=dict(arrowstyle='-', color='0.2'))
 
     plt.savefig(path + '%s.png' % file_name, dpi=300, bbox_inches='tight')
 
@@ -1990,6 +2278,69 @@ def draw_volcano_plot(df_p, path, file_name, z_thresh, p_thresh=-np.log(0.05), z
     plt.clf()
     plt.close()
 
+    return df_p
+
+
+
+def draw_gene_rank_plot(df_p, path, file_name, gene_col, p_col, score_col, figsize=(4, 7), dot_size=7):
+    top_10_genes = df_p.head(10)[gene_col].tolist()
+    bottom_10_genes = df_p.tail(10)[gene_col].tolist()
+
+    df_p['color'] = 'NoChange'
+    df_p.loc[df_p[p_col] <= 0.05, 'color'] = 'Change'
+    df_p.loc[df_p[gene_col].isin(top_10_genes + bottom_10_genes), 'color'] = 'Top'
+
+    font = {'family': 'arial',
+            'weight': 'normal',
+            'size': 16}
+    matplotlib.rc('font', **font)
+    matplotlib.rcParams['axes.linewidth'] = 0.25  # Visually good to have font size : line width = 8 : 0.25
+    matplotlib.rcParams['lines.linewidth'] = 2
+
+    fig, ax = plt.subplots(figsize=figsize)
+    ax = sns.scatterplot(data=df_p, x=df_p.index, y=df_p[score_col], hue='color',
+                         hue_order=['NoChange', 'Change', 'Top'], s=dot_size,
+                         palette=['#000000', '#00BCD4', '#F06293'], alpha=1, edgecolor=None)
+    # x_values = np.linspace(len(df_p), 0, len(df_p))
+    # ax.scatter(x_values, df_p['EZH2_scores'], alpha=0.7)
+
+    for axis in ['bottom', 'left']:
+        ax.spines[axis].set_linewidth(2)
+        ax.spines[axis].set_color('0.2')
+
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+
+    ax.tick_params(width=2, color='0.2')
+    plt.xticks(fontsize=16, color='0.2', weight='normal')
+    plt.yticks(fontsize=16, color='0.2', weight='normal')
+    plt.gca().invert_xaxis()
+    ax.set_xlabel('Gene rank', fontsize=16, weight='normal', color='0.2')
+    ax.set_ylabel('Z-score', fontsize=16, weight='normal', color='0.2')
+
+    # ax.axvline(-z_thresh, zorder=0, color='0.2', lw=1, ls='--')
+    # ax.axvline(z_thresh, zorder=0, color='0.2', lw=1, ls='--')
+
+    ax.legend().set_visible(False)
+
+    text_df = df_p[df_p['color'] == 'Top']
+    texts = []
+    for row in text_df.iterrows():
+        idx, values = row
+        texts.append(plt.text(x=idx, y=values[score_col], s=values[gene_col],
+                              fontsize=16, weight='normal', color='0.2'))
+
+    adjust_text(texts, expand_text=(1.5, 1.5), arrowprops=dict(arrowstyle='-', color='0.2'))
+
+    plt.savefig(path + '%s.png' % file_name, dpi=300, bbox_inches='tight')
+
+    if not os.path.isdir(path + 'svg/'):  # Returns Boolean (if UMAP_fig folder doesn't exist, False)
+        os.makedirs(path + 'svg/')
+    plt.savefig(path + 'svg/%s.svg' % file_name, bbox_inches='tight')
+    plt.clf()
+    plt.close()
+
+    return df_p
 
 def draw_space_feature_magnitude(df, path, feature_list, dot_size, x_name='PC1', y_name='PC2', vmax=None):
 
@@ -2080,11 +2431,11 @@ def draw_confusion_matrix(y_pred, y_test, y_names, path, figsize, file_name, vma
     matplotlib.rc('font', **font)
 
     fig, ax = plt.subplots(figsize=figsize)
-    ax = sns.heatmap(norm_cm, annot=True, annot_kws={'size': 16, 'weight': 'bold'}, linewidths=0.5, linecolor='black', alpha=0.8, cmap='Blues', vmax=vmax)
-    ax.set_xticklabels(pd.unique(y_names), rotation=0, fontsize=16, weight='bold')
-    ax.set_yticklabels(pd.unique(y_names), rotation=0, fontsize=16, weight='bold')
-    ax.set_xlabel('Predicted', fontsize=16, weight='bold', color='0.2')
-    ax.set_ylabel('Truth', fontsize=16, weight='bold', color='0.2')
+    ax = sns.heatmap(norm_cm, annot=True, annot_kws={'size': 16, 'weight': 'normal'}, linewidths=0.5, linecolor='black', alpha=0.8, cmap='Blues', vmax=vmax)
+    ax.set_xticklabels(pd.unique(y_names), rotation=0, fontsize=16, weight='normal')
+    ax.set_yticklabels(pd.unique(y_names), rotation=0, fontsize=16, weight='normal')
+    ax.set_xlabel('Predicted', fontsize=16, weight='normal', color='0.2')
+    ax.set_ylabel('Truth', fontsize=16, weight='normal', color='0.2')
 
     plt.savefig(path + '%s.png'%file_name, dpi=300, bbox_inches='tight')
 
@@ -2095,8 +2446,9 @@ def draw_confusion_matrix(y_pred, y_test, y_names, path, figsize, file_name, vma
     plt.close()
 
 def draw_lineplot_by_custom_ranges(df, path, folder_name, feature_list, condition_name, custsom_range, range_feature, stepsize,
-                                   color_list, marker_list, figsize, x_label, estimator='mean', error_type='ci_norm',
-                                   replace_keys=None, pvalue=False, test='mann-whitney', set_zero=False):
+                                   color_list, marker_list, figsize, x_label, estimator='mean', error_type='ci_norm', fill=True,
+                                   replace_keys=None, pvalue=False, test='mann-whitney', legend=True, set_zero=False,
+                                   side_note=None):
     '''
     error_type:
     standard deviation: measure dispersion of the data
@@ -2162,11 +2514,14 @@ def draw_lineplot_by_custom_ranges(df, path, folder_name, feature_list, conditio
             for idx, key in enumerate(mean_dataset):
                 sns.lineplot(data=mean_dataset, x=np.arange(custsom_range[0], custsom_range[1] + stepsize, stepsize), y=mean_dataset[key],
                              label=key, lw=2.5, marker=marker_list[idx], dashes=False, markersize=8, err_style='bars', color=color_list[idx])
-                # ax.errorbar(x=np.arange(custsom_range[0], custsom_range[1] + stepsize, stepsize), y=mean_dataset[key],
-                #             yerr=error_dataset[key], color=color_list[idx], capsize=3, capthick=1, elinewidth=1.5)
-                ax.fill_between(x=np.arange(custsom_range[0], custsom_range[1] + stepsize, stepsize),
-                            y1=mean_dataset[key]-error_dataset[key], y2=mean_dataset[key]+error_dataset[key],
-                             color=color_list[idx], alpha=0.4)
+
+                if fill == True:
+                    ax.fill_between(x=np.arange(custsom_range[0], custsom_range[1] + stepsize, stepsize),
+                                y1=mean_dataset[key]-error_dataset[key], y2=mean_dataset[key]+error_dataset[key],
+                                 color=color_list[idx], alpha=0.4)
+                else:
+                    ax.errorbar(x=np.arange(custsom_range[0], custsom_range[1] + stepsize, stepsize), y=mean_dataset[key],
+                                yerr=error_dataset[key], color=color_list[idx], capsize=3, capthick=1, elinewidth=1.5)
 
                 # else:
                 #     ax.errorbar(x=np.arange(custsom_range[0], custsom_range[1] + stepsize, stepsize), y=mean_dataset[key],
@@ -2183,15 +2538,29 @@ def draw_lineplot_by_custom_ranges(df, path, folder_name, feature_list, conditio
 
             ax.tick_params(width=2, color='0.2')
 
-            ax.set_xlabel('%s'%x_label, fontsize=16, weight='bold', color='0.2')
+            ax.set_xlabel('%s'%x_label, fontsize=16, weight='normal', color='0.2')
             if set_zero == True:
                 ax.set_ylim(0, )
             plt.xticks(np.arange(custsom_range[0], custsom_range[1] + stepsize, stepsize), fontsize=12, color='0.2',
-                       weight='bold', )
-            plt.yticks(fontsize=16, color='0.2', weight='bold')
+                       weight='normal', )
+            plt.yticks(fontsize=16, color='0.2', weight='normal')
 
-            plt.legend(handles=handles, labels=labels, frameon=False, prop={'weight': 'bold', 'size': 12}, labelcolor='0.2',
-                       loc='best')
+            plt.legend(handles=handles, labels=labels, frameon=False, prop={'weight': 'normal', 'size': 12}, labelcolor='0.2',
+                       loc='center left', bbox_to_anchor=(1.02, 0.5), borderaxespad=0)
+            if legend == False:
+                ax.get_legend().remove()
+
+            if side_note is not None and side_note != '':
+                ax.text(
+                    1.02,
+                    0.02,
+                    side_note,
+                    transform=ax.transAxes,
+                    ha='left',
+                    va='bottom',
+                    fontsize=8,
+                    color='0.2',
+                )
 
             if pvalue == True:
                 from scipy import stats
@@ -2223,6 +2592,294 @@ def draw_lineplot_by_custom_ranges(df, path, folder_name, feature_list, conditio
             plt.close()
         except:
             print('feature %s graph cannot be generated'%feature_name)
+            plt.clf()
+            plt.close()
+
+def _nice_step(raw_step):
+    if not np.isfinite(raw_step) or raw_step <= 0:
+        return None
+
+    exponent = np.floor(np.log10(raw_step))
+    fraction = raw_step / (10 ** exponent)
+    nice_fractions = np.array([1, 2, 2.5, 5, 10])
+    nice_fraction = nice_fractions[np.argmin(np.abs(nice_fractions - fraction))]
+    return nice_fraction * (10 ** exponent)
+
+
+def _get_auto_valid_custom_range(df, condition_name, range_feature, feature_name, min_bins=3, max_bins=10,
+                                 min_bin_count=2):
+    data = df[[condition_name, range_feature, feature_name]].copy()
+    data[range_feature] = pd.to_numeric(data[range_feature], errors='coerce')
+    data[feature_name] = pd.to_numeric(data[feature_name], errors='coerce')
+    data = data.replace([np.inf, -np.inf], np.nan).dropna(subset=[condition_name, range_feature, feature_name])
+
+    if data.empty:
+        return None
+
+    conditions = [c for c in np.unique(data[condition_name]) if pd.notna(c)]
+    if len(conditions) == 0:
+        return None
+
+    x_min = data[range_feature].min()
+    x_max = data[range_feature].max()
+    if not np.isfinite(x_min) or not np.isfinite(x_max) or x_min >= x_max:
+        return None
+
+    candidates = []
+    raw_range = x_max - x_min
+    for n_bins in range(max_bins, min_bins - 1, -1):
+        step = _nice_step(raw_range / n_bins)
+        if step is None:
+            continue
+
+        start = np.floor(x_min / step) * step
+        end = np.ceil(x_max / step) * step
+        bin_starts = np.arange(start, end, step)
+
+        valid_bins = []
+        for bin_start in bin_starts:
+            bin_end = bin_start + step
+            bin_valid = True
+            for condition in conditions:
+                values = data[
+                    (data[condition_name] == condition) &
+                    (data[range_feature] >= bin_start) &
+                    (data[range_feature] < bin_end)
+                ][feature_name].values
+                if values.size < min_bin_count:
+                    bin_valid = False
+                    break
+            valid_bins.append(bin_valid)
+
+        run_start = None
+        for idx, is_valid in enumerate(valid_bins + [False]):
+            if is_valid and run_start is None:
+                run_start = idx
+            elif not is_valid and run_start is not None:
+                run_end = idx
+                run_len = run_end - run_start
+                if run_len >= min_bins:
+                    range_start = bin_starts[run_start]
+                    range_end = bin_starts[run_end - 1]
+                    candidates.append(
+                        {
+                            'range': (range_start, range_end),
+                            'step': step,
+                            'n_bins': run_len,
+                            'width': range_end - range_start + step,
+                        }
+                    )
+                run_start = None
+
+    if len(candidates) == 0:
+        return None
+
+    candidates = sorted(candidates, key=lambda x: (x['n_bins'], x['width']), reverse=True)
+    return candidates[0]['range'], candidates[0]['step']
+
+
+def draw_lineplot_by_auto_ranges(df, path, folder_name, feature_list, condition_name, range_feature,
+                                 color_list, marker_list, figsize, x_label, estimator='mean',
+                                 error_type='ci_norm', fill=True, replace_keys=None, pvalue=False,
+                                 test='mann-whitney', legend=True, set_zero=False, min_bins=3,
+                                 max_bins=10, min_bin_count=None):
+    '''
+    Like draw_lineplot_by_custom_ranges, but chooses an equal-width range and step size per feature.
+    The selected bins are the longest contiguous set where every condition has enough finite values;
+    range width is used as a tie-breaker. This prevents empty-bin NaNs in the mean, error,
+    and p-value calculations.
+    '''
+    if min_bin_count is None:
+        if error_type in ['sem', 'ci_norm', 'ci_t']:
+            min_bin_count = 2
+        else:
+            min_bin_count = 1
+
+    for feature_name in feature_list:
+        auto_range = _get_auto_valid_custom_range(
+            df=df,
+            condition_name=condition_name,
+            range_feature=range_feature,
+            feature_name=feature_name,
+            min_bins=min_bins,
+            max_bins=max_bins,
+            min_bin_count=min_bin_count,
+        )
+        if auto_range is None:
+            print('feature %s graph cannot be generated: no valid auto range for %s' % (feature_name, range_feature))
+            continue
+
+        custsom_range, stepsize = auto_range
+        n_conditions = len([c for c in np.unique(df[condition_name].dropna())])
+        plot_color_list = list(color_list)
+        plot_marker_list = list(marker_list)
+        if len(plot_color_list) < n_conditions:
+            repeats = int(np.ceil(n_conditions / len(plot_color_list)))
+            plot_color_list = (plot_color_list * repeats)[:n_conditions]
+        if len(plot_marker_list) < n_conditions:
+            repeats = int(np.ceil(n_conditions / len(plot_marker_list)))
+            plot_marker_list = (plot_marker_list * repeats)[:n_conditions]
+
+        draw_lineplot_by_custom_ranges(
+            df=df,
+            path=path,
+            folder_name=folder_name,
+            feature_list=[feature_name],
+            condition_name=condition_name,
+            custsom_range=custsom_range,
+            range_feature=range_feature,
+            stepsize=stepsize,
+            color_list=plot_color_list,
+            marker_list=plot_marker_list,
+            figsize=figsize,
+            x_label=x_label,
+            estimator=estimator,
+            error_type=error_type,
+            fill=fill,
+            replace_keys=replace_keys,
+            pvalue=pvalue,
+            test=test,
+            legend=legend,
+            set_zero=set_zero,
+        )
+
+
+def draw_lineplot_by_auto_ranges_per_video(df, path, folder_name, feature_list, condition_name, range_feature,
+                                           color_list, marker_list, figsize, x_label, group_col='video_id',
+                                           estimator='mean', error_type='sem', fill=True, replace_keys=None,
+                                           pvalue=False, test='mann-whitney', legend=True, set_zero=False,
+                                           min_bins=3, max_bins=10, min_bin_count=None,
+                                           min_group_bin_count=1):
+    '''
+    Draw line plots using the same auto-binning logic as draw_lineplot_by_auto_ranges,
+    but first collapse cells within each condition/bin/video to one mean. The plotted
+    mean and error are therefore across videos/ROIs instead of across individual cells.
+    '''
+    if group_col not in df.columns:
+        print('per-video lineplot skipped: %s column is missing' % group_col)
+        return
+
+    if min_bin_count is None:
+        min_bin_count = 2
+
+    for feature_name in feature_list:
+        required_columns = [condition_name, group_col, range_feature, feature_name]
+        missing_columns = [column for column in required_columns if column not in df.columns]
+        if len(missing_columns) > 0:
+            print('feature %s graph cannot be generated: missing columns %s' % (feature_name, missing_columns))
+            continue
+
+        auto_range = _get_auto_valid_custom_range(
+            df=df,
+            condition_name=condition_name,
+            range_feature=range_feature,
+            feature_name=feature_name,
+            min_bins=min_bins,
+            max_bins=max_bins,
+            min_bin_count=min_bin_count,
+        )
+        if auto_range is None:
+            print('feature %s graph cannot be generated: no valid auto range for %s' % (feature_name, range_feature))
+            continue
+
+        custsom_range, stepsize = auto_range
+        data = df[required_columns].copy()
+        data[range_feature] = pd.to_numeric(data[range_feature], errors='coerce')
+        data[feature_name] = pd.to_numeric(data[feature_name], errors='coerce')
+        data = data.replace([np.inf, -np.inf], np.nan).dropna(
+            subset=[condition_name, group_col, range_feature, feature_name]
+        )
+
+        bin_starts = np.arange(custsom_range[0], custsom_range[1] + stepsize, stepsize)
+        per_bin_tables = []
+        for bin_start in bin_starts:
+            bin_end = bin_start + stepsize
+            bin_data = data[
+                (data[range_feature] >= bin_start) &
+                (data[range_feature] < bin_end)
+            ].copy()
+            if bin_data.empty:
+                continue
+
+            group_sizes = (
+                bin_data
+                .groupby([condition_name, group_col], dropna=False)
+                .size()
+                .rename('__n_cells')
+                .reset_index()
+            )
+            bin_summary = (
+                bin_data
+                .groupby([condition_name, group_col], dropna=False)
+                .agg(
+                    **{
+                        range_feature: (range_feature, 'mean'),
+                        feature_name: (feature_name, estimator),
+                    }
+                )
+                .reset_index()
+                .merge(group_sizes, on=[condition_name, group_col], how='left')
+            )
+            bin_summary = bin_summary[bin_summary['__n_cells'] >= min_group_bin_count]
+            if bin_summary.empty:
+                continue
+
+            bin_summary['__bin_start'] = bin_start
+            per_bin_tables.append(bin_summary.drop(columns='__n_cells'))
+
+        if len(per_bin_tables) == 0:
+            print('feature %s graph cannot be generated: no per-video bins for %s' % (feature_name, range_feature))
+            continue
+
+        per_video_df = pd.concat(per_bin_tables, axis=0, ignore_index=True)
+
+        video_count_lines = ['n videos/point']
+        for condition in np.unique(per_video_df[condition_name].dropna()):
+            condition_counts = []
+            for bin_start in bin_starts:
+                n_videos = per_video_df[
+                    (per_video_df[condition_name] == condition) &
+                    (per_video_df['__bin_start'] == bin_start)
+                ][group_col].nunique()
+                condition_counts.append(str(int(n_videos)))
+
+            condition_label = replace_keys.get(condition, condition) if replace_keys is not None else condition
+            video_count_lines.append('%s: %s' % (condition_label, ', '.join(condition_counts)))
+        video_count_note = '\n'.join(video_count_lines)
+
+        n_conditions = len([c for c in np.unique(per_video_df[condition_name].dropna())])
+        plot_color_list = list(color_list)
+        plot_marker_list = list(marker_list)
+        if len(plot_color_list) < n_conditions:
+            repeats = int(np.ceil(n_conditions / len(plot_color_list)))
+            plot_color_list = (plot_color_list * repeats)[:n_conditions]
+        if len(plot_marker_list) < n_conditions:
+            repeats = int(np.ceil(n_conditions / len(plot_marker_list)))
+            plot_marker_list = (plot_marker_list * repeats)[:n_conditions]
+
+        draw_lineplot_by_custom_ranges(
+            df=per_video_df,
+            path=path,
+            folder_name=folder_name,
+            feature_list=[feature_name],
+            condition_name=condition_name,
+            custsom_range=custsom_range,
+            range_feature=range_feature,
+            stepsize=stepsize,
+            color_list=plot_color_list,
+            marker_list=plot_marker_list,
+            figsize=figsize,
+            x_label=x_label,
+            estimator=estimator,
+            error_type=error_type,
+            fill=fill,
+            replace_keys=replace_keys,
+            pvalue=pvalue,
+            test=test,
+            legend=legend,
+            set_zero=set_zero,
+            side_note=video_count_note,
+        )
 
 def draw_jointplot(xs, y, df, path, file_name, colors, hue=None, hue_order=None, alpha=0.8, height=6, ratio=5, space=0.2, xlabels=None, ylabel=None, legend=True,
                    fill=True, thresh=0.05, n_contours=5, margin_norm=False, xmin=None, xmax=None, ymin=None, ymax=None):
@@ -2317,7 +2974,7 @@ def draw_jointplot(xs, y, df, path, file_name, colors, hue=None, hue_order=None,
     for i, x in enumerate(xs, ncols):
         sns.kdeplot(x=x, y=y, data=df, hue=hue, alpha=alpha, ax=axs[i], zorder=2, linewidths=linewidth, palette=cmap, hue_order=hue_order,
                     fill=fill, legend=legend, common_norm=False, thresh=thresh, levels=n_contours+1)
-        # sns.scatterplot(x=x, y=y, data=data, hue=hue, alpha=0.8, ax=axs[i], zorder=3, legend=legend)
+        #sns.scatterplot(x=x, y=y, data=df, hue=hue, alpha=0.8, ax=axs[i], zorder=3, legend=legend)
         #plt.xlim(xmin, xmax)
         #plt.ylim(ymin, ymax)
         axs[i].set_xlim(xmin, xmax)
@@ -2331,7 +2988,7 @@ def draw_jointplot(xs, y, df, path, file_name, colors, hue=None, hue_order=None,
                            labelbottom=False, bottom=False)
 
         axs[i].get_legend_handles_labels()
-        # axs[i].legend(frameon=False, prop={'weight': 'bold', 'size': 8}, labelcolor='0.2')
+        # axs[i].legend(frameon=False, prop={'weight': 'normal', 'size': 8}, labelcolor='0.2')
 
     ### 6. kdeplots at marginal axes
     axs[ncols - 1].axis("off")
@@ -2352,7 +3009,7 @@ def draw_jointplot(xs, y, df, path, file_name, colors, hue=None, hue_order=None,
         axs[i].spines["right"].set_visible(False)
 
         axs[i].tick_params(width=linewidth, color='0.2')
-        # axs[i].set_yticklabels(labels=axs[i].get_yticks()[:-1], fontsize=16, color='0.2', weight='bold')
+        # axs[i].set_yticklabels(labels=axs[i].get_yticks()[:-1], fontsize=16, color='0.2', weight='normal')
 
         axs[i].tick_params(left=True, right=False, labelleft=True,
                            labelbottom=False, bottom=False)
@@ -2375,7 +3032,7 @@ def draw_jointplot(xs, y, df, path, file_name, colors, hue=None, hue_order=None,
     axs[axes_my].spines["right"].set_visible(False)
 
     axs[axes_my].tick_params(width=linewidth, color='0.2')
-    # axs[axes_my].set_xticklabels(labels=axs[axes_my].get_xticks()[:-1], fontsize=16, color='0.2', weight='bold')
+    # axs[axes_my].set_xticklabels(labels=axs[axes_my].get_xticks()[:-1], fontsize=16, color='0.2', weight='normal')
     axs[axes_my].tick_params(left=False, right=False, labelleft=True,
                              labelbottom=True, bottom=True)
 
@@ -2390,9 +3047,9 @@ def draw_jointplot(xs, y, df, path, file_name, colors, hue=None, hue_order=None,
     axes_j = list(range(ncols, 2 * ncols - 1))
 
     for i, x in zip(axes_j, xlabels):
-        axs[i].set_xlabel(x, fontsize=fontsize, weight='bold', color='0.2', labelpad=5)
+        axs[i].set_xlabel(x, fontsize=fontsize, weight='normal', color='0.2', labelpad=5)
         if i == ncols:
-            axs[i].set_ylabel(ylabel, fontsize=fontsize, weight='bold', color='0.2', labelpad=5)
+            axs[i].set_ylabel(ylabel, fontsize=fontsize, weight='normal', color='0.2', labelpad=5)
 
     axs[0].set_ylabel("")
     axs[2 * ncols - 1].set_xlabel("")
@@ -2482,7 +3139,7 @@ def draw_diff_arrow_scatter(df, path, file_name, condition_name, diff_condition_
         for i in range(df.shape[0]):
             texts.append(
                 plt.text(x=df[x_name].iloc[i], y=df[y_name].iloc[i], s=df[ind_name].iloc[i],
-                         fontsize=1.5, weight='bold', color='0.2'))
+                         fontsize=1.5, weight='normal', color='0.2'))
         adjust_text(texts, arrowprops=dict(arrowstyle='-', color='0.2'))
 
         format_figure(ax, title=None, xlabel=xlabel, ylabel=ylabel, despine=True, detick=True)
@@ -2506,3 +3163,186 @@ def draw_diff_arrow_scatter(df, path, file_name, condition_name, diff_condition_
         plt.savefig(path + 'svg/%s %s.svg' % (cond, file_name))
         plt.clf()
         plt.close()
+
+
+def draw_graph_network(custom_sig, path, file_name, sample_n, resolution, regulation=None, figsize=(10,10), inter_spacing=3, intra_spacing=0.5):
+    font = {'family': 'arial',
+            'weight': 'normal',}
+    matplotlib.rc('font', **font)
+
+    cmap = plt.get_cmap("tab20")
+    # cmap = cmc.batlow
+    G = nx.Graph()
+    for name, genes in custom_sig.items():
+        G.add_node(name, size=len(genes))
+
+    for (p1, g1), (p2, g2) in combinations(custom_sig.items(), 2):
+        intersection = len(set(g1) & set(g2))
+        union = len(set(g1) | set(g2))
+        if union > 0:
+            jaccard = intersection / union
+            if jaccard > 0:
+                G.add_edge(p1, p2, weight=jaccard)
+
+    # Analyze each connected component
+    components = list(nx.connected_components(G))
+    all_records = []
+    for i, nodes in enumerate(components):
+        subG = G.subgraph(nodes).copy()
+
+        # Louvain community detection
+        partition = community_louvain.best_partition(subG, resolution=resolution, random_state=0)
+        communities = set(partition.values())
+        print(f'Component {i+1} - Communities detected:', communities)
+
+        # Normalize community labels for consistent RGB coloring
+        comm_list = sorted(list(communities))
+
+        color_map = {comm: cmap(j / max(1, len(comm_list)-1)) for j, comm in enumerate(comm_list)}
+
+        # Sample nodes per community
+        sampled_nodes = []
+        for comm in communities:
+            comm_nodes = [n for n in subG.nodes if partition[n] == comm]
+            sampled = random.sample(comm_nodes, min(sample_n, len(comm_nodes)))
+            sampled_nodes.extend(sampled)
+
+        sampled_subG = subG.subgraph(sampled_nodes).copy()
+
+        # COMMUNITY-AWARE LAYOUT (new)
+        n_comm = len(comm_list)
+        grid_size = ceil(sqrt(n_comm))  # Layout in grid
+
+
+        # Assign grid locations
+        community_positions = {}
+        for idx, comm in enumerate(comm_list):
+            row = idx // grid_size
+            col = idx % grid_size
+            community_positions[comm] = (col * inter_spacing, -row * inter_spacing)
+
+        # Build layout with community offsets
+        pos = {}
+        for comm in comm_list:
+            comm_nodes = [n for n in sampled_subG.nodes if partition[n] == comm]
+            sub_pos = nx.spring_layout(sampled_subG.subgraph(comm_nodes), seed=42, k=intra_spacing)
+            cx, cy = community_positions[comm]
+            for node in comm_nodes:
+                x, y = sub_pos[node]
+                pos[node] = (x + cx, y + cy)
+
+        # Plotting
+        fig, ax = plt.subplots(figsize=figsize)
+
+        # Draw polygons (convex hulls) around each community
+        for comm in communities:
+            comm_nodes = [n for n in sampled_subG.nodes if partition[n] == comm]
+            points = np.array([pos[n] for n in comm_nodes])
+            if len(points) >= 3:
+                hull = ConvexHull(points)
+                polygon = Polygon(points[hull.vertices], closed=True, alpha=0.2,
+                                  color=color_map[comm], zorder=0, edgecolor='none')
+                ax.add_patch(polygon)
+
+        #nx.draw_networkx_edges(sampled_subG, pos, alpha=0.1)
+        # Draw edges with thickness = IoU score
+        edges = sampled_subG.edges(data=True)
+        for u, v, d in edges:
+            weight = d["weight"]
+            nx.draw_networkx_edges(sampled_subG, pos, edgelist=[(u, v)],
+                                   width=1 + 5 * weight, alpha=0.1)
+
+        # Draw nodes with consistent community-based coloring
+        node_colors = [color_map[partition[n]] for n in sampled_subG.nodes]
+        nx.draw_networkx_nodes(sampled_subG, pos, node_color=node_colors, node_size=100)
+
+        # Draw node labels
+        texts = []
+        for node in sampled_subG.nodes:
+            x, y = pos[node]
+            texts.append( plt.text(x, y, node, fontsize=7, ha='center', va='center') )
+
+            if regulation != None:
+                if node in regulation:
+                    if regulation[node] == 'UP':
+                        plt.scatter(x, y, marker='^', color='green', s=7, zorder=5)
+                    elif regulation[node] == 'DOWN':
+                        plt.scatter(x, y, marker='v', color='red', s=7, zorder=5)
+
+        #plt.title(f"Component {i + 1}: Sampled Nodes from Each Community")
+        adjust_text(texts, arrowprops=dict(arrowstyle='-', color='0.2'))
+        # Community color legend
+        from matplotlib.lines import Line2D
+        from matplotlib.patches import Patch
+        handles = [Patch(facecolor=color_map[comm], label=f"Community {comm}") for comm in comm_list]
+
+        # Edge thickness legend
+        edge_legend_scores = [0.1, 0.5, 0.9]
+        edge_lines = [
+            Line2D([0], [0], color='gray', lw=1 + 5 * s, alpha=0.5, label=f"IoU = {s:.1f}")
+            for s in edge_legend_scores
+        ]
+
+        # Combine legends and show
+        combined_handles = handles + edge_lines
+        ax.legend(handles=combined_handles, bbox_to_anchor=(0.9, 1.1), loc=2, fontsize=5, frameon=False)
+
+        plt.axis('off')
+        plt.savefig(path + f'%s_{i + 1}.png'%file_name, dpi=300, bbox_inches='tight')
+        if not os.path.isdir(path + 'svg/'):
+            os.makedirs(path + 'svg/')
+        fig.savefig(path + f'svg/%s_{i + 1}.svg'%file_name, bbox_inches='tight')
+        plt.close()
+        plt.clf()
+
+        for node in subG.nodes:
+            comm = partition[node]
+            genes = custom_sig[node]  # assuming custom_sig[node] is your gene list
+            if regulation !=None:
+                reg = regulation[node]
+                record = {
+                    'Component': f'Component_{i + 1}',
+                    'Pathway': node,
+                    'Community_ID': comm,
+                    'Number_of_Genes': len(genes),
+                    'Genes': ';'.join(genes),
+                    'Regulation': reg
+                }
+            else:
+                record = {
+                    'Component': f'Component_{i + 1}',
+                    'Pathway': node,
+                    'Community_ID': comm,
+                    'Number_of_Genes': len(genes),
+                    'Genes': ';'.join(genes)
+                }
+            all_records.append(record)
+    df_communities = pd.DataFrame(all_records)
+    df_communities['Component_Community'] = df_communities['Component'] + '_Community_' + df_communities[
+        'Community_ID'].astype(str)
+    df_communities = df_communities.sort_values(['Component_Community', 'Pathway']).reset_index(drop=True)
+
+    output_excel = os.path.join(path, 'community_detected_pathways.xlsx')
+    df_communities.to_excel(output_excel, index=False)
+
+    return df_communities
+
+
+
+def draw_bezier_edge(ax, src, dst, color, alpha=0.3, lw=1.0, ctrl_offset=0.6):
+    """Draw a cubic Bezier curve between src and dst positions."""
+    # Higher ctrl_offset curves more
+    x0, y0 = src
+    x1, y1 = dst
+
+    # Control points: create smooth horizontal bend
+    ctrl1 = (x0 + ctrl_offset, y0)
+    ctrl2 = (x1 - ctrl_offset, y1)
+
+    # Separate vertices and codes
+    vertices = [src, ctrl1, ctrl2, dst]
+    codes = [Path.MOVETO, Path.CURVE4, Path.CURVE4, Path.CURVE4]
+
+    path = Path(vertices, codes)
+    patch = PathPatch(path, facecolor='none', edgecolor=color, alpha=alpha, lw=lw)
+    ax.add_patch(patch)

@@ -327,3 +327,18 @@ def bbox_3d(zmax, ymax, xmax):
         np.array([farpoint, farpoint - xaxis]),
     ]
     return lines
+
+
+def bbox_2d(ymax, xmax):
+    yaxis, xaxis = np.array([ymax, 0]), np.array([0, xmax])
+    farpoint = yaxis + xaxis
+
+    lines = [
+        np.array([[0, 0], yaxis]),
+        np.array([[0, 0], xaxis]),
+        np.array([yaxis, yaxis + xaxis]),
+        np.array([xaxis, xaxis + yaxis]),
+        np.array([farpoint, farpoint - yaxis]),
+        np.array([farpoint, farpoint - xaxis]),
+    ]
+    return lines

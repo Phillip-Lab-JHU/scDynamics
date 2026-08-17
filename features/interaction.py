@@ -47,13 +47,13 @@ class DistanceSignal(object):
 
         for idx in signals:  # u는 세포 하나의 index
             signal = signals[idx]  # cell은 t=0 ~ t=T 까지
-
+            signal = np.array(signal)
             total[idx] = sum(signal)
-            maximum[idx] = max(signal)
-            peak_to_peak[idx] = max(signal) - min(signal)
+            maximum[idx] = np.max(signal)
+            peak_to_peak[idx] = np.max(signal) - np.min(signal)
 
             time_range = range(signal.size)
-            slope, intercept, r_val, p_val, SE = scipy.stats.linregress(time_range, signal)
+            slope, intercept, r_val, p_val, SE = scipy.stats.linregress(time_range, signal.flatten())
             distance_slopes[idx] = slope
 
             if all(signal == 0):  # cell with persistent contact
@@ -64,9 +64,9 @@ class DistanceSignal(object):
             else:
                 RMS = np.sqrt(np.mean(signal ** 2))
                 RMSs[idx] = RMS
-                crestfactor[idx] = max(signal) / RMS
+                crestfactor[idx] = np.max(signal) / RMS
                 formfactor[idx] = RMS / np.mean(signal)
-                pulseindicator[idx] = max(np.abs(signal)) / np.mean(signal)
+                pulseindicator[idx] = np.max(np.abs(signal)) / np.mean(signal)
 
         return total, maximum, peak_to_peak, distance_slopes, RMSs, crestfactor, formfactor, pulseindicator
 
@@ -202,9 +202,10 @@ class OverlapSignal(object):
 
         for idx in signals:  # u는 세포 하나의 index
             signal = signals[idx]  # cell은 t=0 ~ t=T 까지
+            signal = np.array(signal)
             avg_overlap[idx] = np.mean(signal)
             time_range = range(signal.size)
-            slope, intercept, r_val, p_val, SE = scipy.stats.linregress(time_range, signal)
+            slope, intercept, r_val, p_val, SE = scipy.stats.linregress(time_range, signal.flatten())
             overlap_slopes[idx] = slope
 
         return avg_overlap, overlap_slopes
@@ -225,7 +226,7 @@ class OverlapSignal(object):
                 contact_persistences[idx] = 0
             else:
                 contact_time = np.sum(contact_profile)
-                contact_persistence = max([sum(group) for element, group in groupby(contact_profile) if element == 1])
+                contact_persistence = np.max([sum(group) for element, group in groupby(contact_profile) if element == 1])
                 contact_times[idx] = contact_time
                 contact_persistences[idx] = contact_persistence
 
@@ -236,7 +237,7 @@ class OverlapSignal(object):
                 noncontact_persistences[idx] = 0
             else:
                 noncontact_time = np.sum(noncontact_profile)
-                noncontact_persistence = max([sum(group) for element, group in groupby(noncontact_profile) if element == 1])
+                noncontact_persistence = np.max([sum(group) for element, group in groupby(noncontact_profile) if element == 1])
                 noncontact_times[idx] = noncontact_time
                 noncontact_persistences[idx] = noncontact_persistence
 
@@ -294,7 +295,7 @@ class ZoneSignal(object):
 
             else:
                 dz_time = np.sum(dz_profile)
-                dz_resident_persistence = max([sum(group) for element, group in groupby(dz_profile) if element == 1])
+                dz_resident_persistence = np.max([sum(group) for element, group in groupby(dz_profile) if element == 1])
                 dz_resident_times[idx] = dz_time
                 dz_resident_persistences[idx] = dz_resident_persistence
 
@@ -304,7 +305,7 @@ class ZoneSignal(object):
 
             else:
                 slz_time = np.sum(slz_profile)
-                slz_resident_persistence = max([sum(group) for element, group in groupby(slz_profile) if element == 1])
+                slz_resident_persistence = np.max([sum(group) for element, group in groupby(slz_profile) if element == 1])
                 slz_resident_times[idx] = slz_time
                 slz_resident_persistences[idx] = slz_resident_persistence
 
@@ -314,7 +315,7 @@ class ZoneSignal(object):
 
             else:
                 dlz_time = np.sum(dlz_profile)
-                dlz_resident_persistence = max([sum(group) for element, group in groupby(dlz_profile) if element == 1])
+                dlz_resident_persistence = np.max([sum(group) for element, group in groupby(dlz_profile) if element == 1])
                 dlz_resident_times[idx] = dlz_time
                 dlz_resident_persistences[idx] = dlz_resident_persistence
 

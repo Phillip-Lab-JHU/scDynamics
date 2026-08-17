@@ -1010,5 +1010,85 @@ def get_instant_direction_variable_duration(df, frame_name, thresh, feature_name
     return df
 
 
+def get_consecutive_frame_df(df_duration, label_name, frame_name):
+    consecutive_labels = []
+    for label, group in df_duration.groupby(label_name):
+        time_diff = group[frame_name].sort_values().diff().dropna()  # Drop the first time point by dropna
+        if np.all(time_diff == 1):  # Check whether all time difference is 1
+            consecutive_labels.append(label)
+        # else:
+        #     print(label, group[frame_name])
+    df_duration_filtered = df_duration[df_duration[label_name].isin(consecutive_labels)]
+    return df_duration_filtered.reset_index(drop=True)
 
 
+def harmonize_pmc(
+    traj: pd.DataFrame,
+    orig_dt_min: float,
+    new_dt_min: float,
+    x_name: str,
+    y_name: str,
+    frame_name: str,
+    pmc: float = 2.01,
+):
+    """
+    traj : dataframe with x, y, frame of a trajectory
+    orig_dt_min : original frame interval in minutes (e.g., 2.0)
+    new_dt_min  : new desired interval in minutes (e.g., 0.5 for 30 seconds)
+    """
+
+    # Time in minutes (NOT seconds)
+    t = traj[frame_name].to_numpy(dtype=float) * float(orig_dt_min)
+    x = traj[x_name].to_numpy(dtype=float)
+    y = traj[y_name].to_numpy(dtype=float)
+
+    # new uniform time grid
+    t_new = np.arange(t.min(), t.max() + 1e-9, float(new_dt_min))
+
+    x_new = np.zeros_like(t_new)
+    y_new = np.zeros_like(t_new)
+
+    j = 0
+    for i, tn in enumerate(t_new):
+        while j < len(t) - 2 and tn > t[j + 1]:
+            j += 1
+
+        t0, t1 = t[j], t[j + 1]
+        x0, x1 = x[j], x[j + 1]
+        y0, y1 = y[j], y[j + 1]
+
+        dt = t1 - t0
+        if dt == 0:
+            x_new[i] = x0
+            y_new[i] = y0
+            continue
+
+        alpha = (tn - t0) / dt  # 0..1
+
+        dx = x1 - x0
+        dy = y1 - y0
+
+        # pure linear
+        x_linear = x0 + alpha * dx
+        y_linear = y0 + alpha * dy
+
+        # correction weight that is ZERO at endpoints
+        w = alpha * (1.0 - alpha)
+
+        # PMC correction
+        if abs(dx) >= abs(dy):
+            x_interp = x_linear + w * (dx / pmc)
+            y_interp = y_linear
+        else:
+            x_interp = x_linear
+            y_interp = y_linear + w * (dy / pmc)
+
+        x_new[i] = x_interp
+        y_new[i] = y_interp
+
+    df_traj = pd.DataFrame({
+        "%s"%frame_name: t_new / float(orig_dt_min),
+        "%s"%x_name: x_new,
+        "%s"%y_name: y_new
+    })
+    return df_traj

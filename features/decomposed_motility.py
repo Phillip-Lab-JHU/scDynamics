@@ -24,10 +24,11 @@ import pandas as pd
 
 
 class DecomposedMotility3D(object):
-    def __init__(self, trajectories, time_unit):
+    def __init__(self, trajectories, time_unit, align=True):
 
         self.trajectories = trajectories
         self.time_unit = time_unit
+        self.align = align
 
         self.avg_speed_x, self.max_speed_x, self.min_speed_x, self.net_distance_x, self.progressivity_x, self.speed_distribution_x, self.displacement_distribution_x, \
         self.avg_speed_y, self.max_speed_y, self.min_speed_y, self.net_distance_y, self.progressivity_y, self.speed_distribution_y, self.displacement_distribution_y, \
@@ -166,8 +167,11 @@ class DecomposedMotility3D(object):
 
         for traj_idx in trajectories:
             traj = trajectories[traj_idx]
-            traj_x, traj_y, traj_z, _ = self.find_primary_axis(traj)
 
+            if self.align==True:
+                traj_x, traj_y, traj_z, _ = self.find_primary_axis(traj)
+            elif self.align == False:
+                traj_x, traj_y, traj_z = traj[:, 0], traj[:, 1], traj[:, 2]
             avg_speed_x[traj_idx], max_speed_x[traj_idx], min_speed_x[traj_idx], net_distance_x[traj_idx], progressivity_x[traj_idx], \
             speed_distribution_x[traj_idx], displacement_distribution_x[traj_idx], total_distance_x[traj_idx], max_displacement_x[traj_idx] = self.calc_various_distances(traj_x)
 
@@ -549,10 +553,11 @@ class DecomposedMotility3D(object):
 
 
 class DecomposedMotility2D(object):
-    def __init__(self, trajectories, time_unit):
+    def __init__(self, trajectories, time_unit, align=True):
 
         self.trajectories = trajectories
         self.time_unit = time_unit
+        self.align = align
 
         self.avg_speed_x, self.max_speed_x, self.min_speed_x, self.net_distance_x, self.progressivity_x, self.speed_distribution_x, self.displacement_distribution_x, \
         self.avg_speed_y, self.max_speed_y, self.min_speed_y, self.net_distance_y, self.progressivity_y, self.speed_distribution_y, self.displacement_distribution_y, \
@@ -713,8 +718,10 @@ class DecomposedMotility2D(object):
 
         for traj_idx in trajectories:
             traj = trajectories[traj_idx]
-            traj_x, traj_y, _ = self.register_traj_disp_reflection(traj)
-
+            if self.align == True:
+                traj_x, traj_y, _ = self.register_traj_disp_reflection(traj)
+            elif self.align == False:
+                traj_x, traj_y = traj[:, 0], traj[:, 1]
             avg_speed_x[traj_idx], max_speed_x[traj_idx], min_speed_x[traj_idx], net_distance_x[traj_idx], progressivity_x[traj_idx], \
             speed_distribution_x[traj_idx], displacement_distribution_x[traj_idx], total_distance_x[traj_idx], max_displacement_x[traj_idx] = self.calc_various_distances(traj_x)
 

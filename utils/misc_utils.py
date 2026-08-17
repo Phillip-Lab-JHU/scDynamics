@@ -82,6 +82,16 @@ def reduced_label_for_overlapped_volume(df, duration):
         other_features_data[feature_name] = aa
     return pd.DataFrame(other_features_data)
 
+
+def convert_df_indices_to_df_duration(indices, duration):
+    indices = list(indices)
+    df_duration_indices = []
+    for i in indices:
+        df_duration_indices.extend(range(i * duration, i * duration + duration))
+
+    df_duration_indices = np.array(df_duration_indices)
+    return df_duration_indices
+
 def dict_to_array(trajectories):
     a = []
     for traj_idx in trajectories:
@@ -229,6 +239,22 @@ def calculate_entropy(df, df_big, condition_name, cluster_type):
     return shannon_entropy_dict, max_entropy
 
 
+def shannon_entropy(probabilities):
+    """
+    Compute Shannon's entropy given a list of probabilities.
+
+    Parameters:
+    - probabilities (list or numpy array): A list of probabilities summing to 1.
+
+    Returns:
+    - float: Shannon entropy value.
+    """
+    probabilities = np.array(probabilities)
+
+    # Compute entropy
+    entropy = -np.sum( probabilities * np.log( probabilities + 1e-10) )  # Add 1e-10 to remove zero probabilities to avoid log(0)
+    return entropy
+
 def calculate_gini(x):
     ''' Calculate Gini coefficient, where 0 is perfect equality, 1 is perfect inequality
     Parameters:
@@ -356,7 +382,7 @@ def Cohen_d(group1, group2):
     d = diff/np.sqrt(pooled_var)
     return d
 
-def get_various_statistics(dict_datasets:dict, test:str) -> tuple:
+def get_various_statistics(dict_datasets:dict, test:str, return_sig=False) -> tuple:
     ''' Get various statistical tests
 
         one-way anova -> Parametric (normal distribution), more than 2 groups
@@ -461,8 +487,13 @@ def get_various_statistics(dict_datasets:dict, test:str) -> tuple:
 
             cohen_d = Cohen_d(group1, group2)
             cohen_ds.append(cohen_d)
-        #_, p_values, _, _ = statsmodels.stats.multitest.multipletests(p_values, alpha=0.05, method='fdr_bh')  # Benjamini/Hochberg adjustment
-        _, p_values, _, _ = sm.stats.multipletests(p_values, alpha=0.05,method='fdr_bh')  # Benjamini/Hochberg adjustment
+        #_, p_values, _, _ = sm.stats.multipletests(p_values, alpha=0.05,method='fdr_bh')  # Benjamini/Hochberg adjustment
+
+    if return_sig == True:
+        sig = np.array(p_values)<=0.05
+        pairs = np.array(pairs)[sig]
+        p_values = np.array(p_values)[sig]
+        cohen_ds = np.array(cohen_ds)[sig]
 
     return pairs, p_values, cohen_ds
 
@@ -557,3 +588,165 @@ def permutation_test(df, group_name, class_name, iteration=10000)-> dict[dict[tu
 
         p_dict[group] = p_dict_temp
     return p_dict
+
+def extract_n_substrings(s:str, n:int, symbol='_') -> list:
+    """
+    Extracts the first `n` substrings that are between symbol like '_'.
+
+    Parameters:
+    - s (str): Input string.
+    - n (int): Number of substrings to extract.
+    - symbol (str): String used to split substrings.
+
+    Returns:
+    - List of extracted substrings.
+    """
+    parts = s.split(symbol)  # Split by underscores
+    return parts[:n]  # Return the first `n` parts
+
+def get_filtered_string_list(arr, keywords, filter_type='or') -> np.array:
+    """
+    Extracts the first `n` substrings that are between symbol like '_'.
+
+    Parameters:
+    - arr (np.array): Input array that contain strings
+    - keywords (list of strings): Keywords that should be included in the filtered strings
+    - filter_type (str): Applying 'or' operation or 'and' operation.
+
+    Returns:
+    - List of filtered strings that contain keywords.
+    """
+    keywords = np.array(keywords)
+
+    if filter_type == 'or':
+        filtered_arr = np.array([s for s in arr if any(term in s for term in keywords)])
+    elif filter_type == 'and':
+        filtered_arr = np.array([s for s in arr if all(term in s for term in keywords)])
+    return filtered_arr
+
+
+def outlier_detection_by_discontinuity(df, feature):
+    df_sorted = df.sort_values(by='%s' % feature).reset_index()
+    df_sorted['%s_diff' % feature] = df_sorted['%s' % feature].diff() # Calculate differences between consecutive feature values
+    max_diff_index = df_sorted['%s_diff' % feature].idxmax()  # Identify the index with the maximum gap
+
+    left_idxs = df_sorted.loc[:max_diff_index, 'index'].tolist()
+    right_idxs = df_sorted.loc[max_diff_index:, 'index'].tolist()
+
+    if len(left_idxs) >= len(right_idxs):
+        outlier_idxs = right_idxs
+    else:
+        outlier_idxs = left_idxs
+
+    df.loc[outlier_idxs, 'outlier'] = 'outlier'
+    df['outlier'] = df['outlier'].fillna('data')
+
+    df_removed = df[df['outlier'] == 'data'].reset_index(drop=True)
+    df_removed = df_removed.drop(columns=['outlier'])
+
+    return df, df_removed
+
+def project_feature_onto_FDC(df, df_duration, feature, duration, img_shape, offsets, um_per_zslice, um_per_pixel, count_norm=True):
+    n_trajs = df_duration.shape[0] // duration
+    z, r, w = img_shape
+    feature_map = np.zeros(img_shape, dtype=np.float32)
+    count = np.zeros(img_shape, dtype=np.int32)
+
+    for traj_idx in tqdm(range(n_trajs)):
+        # Extract the 20-frame segment for the current cell
+        traj = df_duration.iloc[traj_idx * duration: (traj_idx + 1) * duration]
+
+        # Convert positions from micrometers to pixels
+        positions_z = (traj['Position Z'].values / um_per_zslice).round().astype(int)
+        positions_y = (traj['Position Y'].values / um_per_pixel).round().astype(int)
+        positions_x = (traj['Position X'].values / um_per_pixel).round().astype(int)
+
+        # Stack positions into a single array of shape (duration, 3)
+        positions = np.stack((positions_z, positions_y, positions_x), axis=1)
+
+        # Apply offsets to get neighboring voxel indices
+        neighbors = positions[:, np.newaxis, :] + offsets[np.newaxis, :, :]  # Shape: (duration, num_offsets, 3)
+        neighbors = neighbors.reshape(-1, 3)  # Flatten to (duration * num_offsets, 3)
+
+        # Filter out-of-bounds indices
+        valid_mask = (
+                (neighbors[:, 0] >= 0) & (neighbors[:, 0] < z) &
+                (neighbors[:, 1] >= 0) & (neighbors[:, 1] < r) &
+                (neighbors[:, 2] >= 0) & (neighbors[:, 2] < w)
+        )
+        valid_neighbors = neighbors[valid_mask]
+
+        # Retrieve the feature value for this trajectory
+        feature_value = df.iloc[traj_idx][feature]
+
+        # Convert 3D indices to linear indices
+        linear_indices = np.ravel_multi_index(
+            (valid_neighbors[:, 0], valid_neighbors[:, 1], valid_neighbors[:, 2]),
+            dims=(z, r, w)
+        )
+
+        # Accumulate feature values and counts
+        np.add.at(feature_map.ravel(), linear_indices, feature_value)
+        np.add.at(count.ravel(), linear_indices, 1)
+
+    if count_norm == True:
+        nonzero_mask = count > 0
+        feature_map[nonzero_mask] /= count[nonzero_mask]
+    else:
+        nonzero_mask = count == 1
+        feature_map = np.where(nonzero_mask, feature_map, 0)
+    return feature_map
+
+def project_feature_onto_FDC_by_majority_vote(df, df_duration, feature, duration, img_shape, offsets, um_per_zslice, um_per_pixel):
+    from collections import defaultdict, Counter
+    n_trajs = df_duration.shape[0] // duration
+    z, r, w = img_shape
+    feature_map = np.zeros(img_shape, dtype=np.float32)
+    count = np.zeros(img_shape, dtype=np.int32)
+    label_votes = defaultdict(Counter)  # voxel_linear_index -> Counter({label: hits})
+
+    for traj_idx in tqdm(range(n_trajs)):
+        # Extract the 20-frame segment for the current cell
+        traj = df_duration.iloc[traj_idx * duration: (traj_idx + 1) * duration]
+
+        # Convert positions from micrometers to pixels
+        positions_z = (traj['Position Z'].values / um_per_zslice).round().astype(int)
+        positions_y = (traj['Position Y'].values / um_per_pixel).round().astype(int)
+        positions_x = (traj['Position X'].values / um_per_pixel).round().astype(int)
+
+        # Stack positions into a single array of shape (duration, 3)
+        positions = np.stack((positions_z, positions_y, positions_x), axis=1)
+
+        # Apply offsets to get neighboring voxel indices
+        neighbors = positions[:, np.newaxis, :] + offsets[np.newaxis, :, :]  # Shape: (duration, num_offsets, 3)
+        neighbors = neighbors.reshape(-1, 3)  # Flatten to (duration * num_offsets, 3)
+
+        # Filter out-of-bounds indices
+        valid_mask = (
+                (neighbors[:, 0] >= 0) & (neighbors[:, 0] < z) &
+                (neighbors[:, 1] >= 0) & (neighbors[:, 1] < r) &
+                (neighbors[:, 2] >= 0) & (neighbors[:, 2] < w)
+        )
+        valid_neighbors = neighbors[valid_mask]
+
+        # Retrieve the feature value for this trajectory
+        feature_value = df.iloc[traj_idx][feature]
+
+        # Convert 3D indices to linear indices
+        linear_indices = np.ravel_multi_index(
+            (valid_neighbors[:, 0], valid_neighbors[:, 1], valid_neighbors[:, 2]),
+            dims=(z, r, w)
+        )
+
+        u, c = np.unique(linear_indices, return_counts=True)
+        # accumulate votes for this label at all voxels hit by this trajectory
+        for idx, hits in zip(u, c):
+            label_votes[int(idx)][int(feature_value)] += int(hits)
+
+    fm = feature_map.ravel()
+    for lin_idx, ctr in label_votes.items():
+        mode_label, _ = ctr.most_common(1)[0]
+        fm[lin_idx] = float(mode_label)
+    feature_map = feature_map  # already filled
+
+    return feature_map
