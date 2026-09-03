@@ -1,0 +1,50 @@
+Gene,Regulation,Function,Cell type
+Rgs4,Upregulated,"Regulates G-protein signaling, influencing chemotaxis and migration",Other
+Cxcr3,Upregulated,Chemokine receptor guiding cell migration,B cell
+Pecam1,Upregulated,Facilitates transendothelial migration,B cell
+Thy1,Upregulated,Modulates cell adhesion and migration,B cell
+Fhl1,Upregulated,Involved in cytoskeletal organization,Other
+Anxa10,Upregulated,"Annexin family member, implicated in membrane dynamics and motility",Other
+Gucy2c,Upregulated,Influences intracellular signaling pathways affecting motility,B cell
+Pparg,Upregulated,Regulates genes involved in cell differentiation and migration,B cell
+Arhgap22,Upregulated,"Rho GTPase-activating protein, modulates actin cytoskeleton",Other
+Atxn1,Upregulated,Involved in transcriptional regulation affecting cell movement,B cell
+Grip2,Upregulated,"Interacts with cytoskeletal elements, influencing cell shape and motility",Other
+Fndc4,Upregulated,"Involved in extracellular matrix interactions, affecting cell migration",Other
+Saa3,Upregulated,"Acute-phase protein, modulates inflammatory responses and cell movement",B cell
+Tnfrsf18,Upregulated,"TNF receptor family, influences survival and migration",B cell
+Wnt10a,Upregulated,"Wnt signaling pathway member, affects cell polarity and movement",B cell
+Zap70,Upregulated,"Tyrosine kinase in TCR signaling, affects activation and motility",B cell
+Dhrs3,Upregulated,"Involved in retinoid metabolism, influencing differentiation and movement",Other
+Cited1,Upregulated,"Transcriptional co-activator, modulates gene expression for migration",Other
+Caln1,Upregulated,"Calcium-binding protein, affects signaling and motility",Other
+Nav3,Upregulated,Cytoskeletal organization and cell migration,Other
+Nlrc3,Upregulated,"NOD-like receptor, modulates immune response and movement",Other
+Nmnat3,Upregulated,"NAD+ biosynthesis, affects energy metabolism and motility",Other
+Prox1,Upregulated,Regulates lymphatic endothelial cell migration,Other
+Ptpn22,Upregulated,"Tyrosine phosphatase, affects signaling and motility",B cell
+Rtp4,Upregulated,"GPCR trafficking, affects chemotaxis",Other
+Sall3,Upregulated,"Transcription factor, modulates gene expression for movement",Other
+Sez6l2,Upregulated,Involved in neuronal development and migration,Other
+Suclg2,Upregulated,"Mitochondrial enzyme, affects energy metabolism and motility",Other
+Sult1a1,Upregulated,Hormone metabolism affecting cell movement,Other
+Arhgap10,Downregulated,Rho GTPase-activating protein; regulates actin cytoskeleton,Other
+Arhgap21,Downregulated,Regulates Rho signaling; affects cytoskeletal organization,Other
+Arhgap32,Downregulated,Actin remodeling; cell shape and motility,Other
+Arhgap5,Downregulated,Rho GTPase activity; cell migration and invasion,Other
+Arhgap6,Downregulated,RhoA signaling; cytoskeletal dynamics,Other
+Arhgap8,Downregulated,Rho GTPase pathways; migration,Other
+Arhgef25,Downregulated,GEF for Rho GTPase signaling and movement,Other
+Daam1,Downregulated,"Formin family, actin filament formation",Other
+Dock6,Downregulated,Activates Rac1/Cdc42; cytoskeletal reorganization,Other
+Fhod3,Downregulated,Formin; actin assembly,Other
+Fmn2,Downregulated,Formin protein; actin nucleation,Other
+Spata6,Downregulated,Cytoskeletal organization,Other
+Spire1,Downregulated,Actin nucleator; filament formation,Other
+Spire2,Downregulated,Actin nucleator; cell motility,Other
+Wdr60,Downregulated,Dynein motor complex; intracellular transport,Other
+Wdr35,Downregulated,Ciliary function; signaling and motility,Other
+Wdr31,Downregulated,Microtubule organization,Other
+Wdr54,Downregulated,Cytoskeletal dynamics,Other
+Vipr1,Downregulated,GPCR; signaling and migration,Other
+Vwa3b,Downregulated,Adhesion; cell motility,Other

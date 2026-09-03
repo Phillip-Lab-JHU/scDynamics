@@ -1,0 +1,7 @@
+dataset,zone,n
+expanded behavior,DZ,150
+expanded behavior,DZ-LZ,150
+expanded behavior,LZ,150
+scRNA-seq,DZ,150
+scRNA-seq,DZ-LZ,150
+scRNA-seq,LZ,150

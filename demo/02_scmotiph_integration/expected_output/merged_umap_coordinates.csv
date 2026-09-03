@@ -1,0 +1,901 @@
+dataset,UMAP1,UMAP2,zone,type,behavior_cluster
+scRNA-seq,2.0022228,9.464098,LZ,EZH2,
+scRNA-seq,0.21438536,11.246122,LZ,EZH2,
+scRNA-seq,1.9867396,9.978437,LZ,EZH2,
+scRNA-seq,2.0574245,10.165468,LZ,EZH2,
+scRNA-seq,1.9939936,10.877066,LZ,EZH2,
+scRNA-seq,3.054671,8.991165,LZ,EZH2,
+scRNA-seq,-1.1601131,11.247861,LZ,EZH2,
+scRNA-seq,-0.73130023,11.082223,LZ,EZH2,
+scRNA-seq,3.1749327,8.91647,LZ,EZH2,
+scRNA-seq,1.1122795,11.557519,LZ,EZH2,
+scRNA-seq,2.0038643,9.079683,LZ,EZH2,
+scRNA-seq,-2.472061,11.572285,LZ,EZH2,
+scRNA-seq,-0.8330452,10.800621,LZ,EZH2,
+scRNA-seq,-1.428843,12.749102,LZ,EZH2,
+scRNA-seq,-0.6015266,11.479332,LZ,EZH2,
+scRNA-seq,3.1778975,10.17456,LZ,EZH2,
+scRNA-seq,1.3688009,11.244302,LZ,EZH2,
+scRNA-seq,-0.06993802,12.968891,LZ,EZH2,
+scRNA-seq,2.4961362,9.189516,LZ,EZH2,
+scRNA-seq,2.1079488,9.086273,LZ,EZH2,
+scRNA-seq,-2.3362741,11.9708,LZ,EZH2,
+scRNA-seq,-0.87689316,13.2945795,LZ,EZH2,
+scRNA-seq,0.9543617,10.132625,LZ,EZH2,
+scRNA-seq,-1.3497443,12.181663,LZ,EZH2,
+scRNA-seq,-0.29546213,11.369947,LZ,EZH2,
+scRNA-seq,-3.4337082,9.841078,LZ,EZH2,
+scRNA-seq,0.85156393,11.370554,LZ,EZH2,
+scRNA-seq,1.1964574,10.725834,LZ,EZH2,
+scRNA-seq,-1.8356886,11.993874,LZ,EZH2,
+scRNA-seq,1.3499906,11.34597,LZ,EZH2,
+scRNA-seq,-1.5951234,11.930643,LZ,EZH2,
+scRNA-seq,1.209209,9.864561,LZ,EZH2,
+scRNA-seq,2.5684366,9.859251,LZ,EZH2,
+scRNA-seq,1.2848604,12.532782,LZ,EZH2,
+scRNA-seq,-0.55345714,13.133829,LZ,EZH2,
+scRNA-seq,2.5658908,9.904841,LZ,EZH2,
+scRNA-seq,0.9463278,12.133962,LZ,EZH2,
+scRNA-seq,1.2651691,10.294689,LZ,EZH2,
+scRNA-seq,-0.8411448,10.687422,LZ,EZH2,
+scRNA-seq,-2.699335,11.296475,LZ,EZH2,
+scRNA-seq,2.6185095,10.865749,LZ,EZH2,
+scRNA-seq,-1.4258312,11.217689,LZ,EZH2,
+scRNA-seq,-0.0505015,11.413665,LZ,EZH2,
+scRNA-seq,0.13925594,10.501291,LZ,EZH2,
+scRNA-seq,-0.4259837,10.621136,LZ,EZH2,
+scRNA-seq,0.7263603,11.742137,LZ,EZH2,
+scRNA-seq,3.0174654,9.566649,LZ,EZH2,
+scRNA-seq,-0.89771813,10.9374695,LZ,EZH2,
+scRNA-seq,-2.0159745,11.632094,LZ,EZH2,
+scRNA-seq,-0.34096366,10.596347,LZ,EZH2,
+scRNA-seq,-2.8877935,10.858473,LZ,EZH2,
+scRNA-seq,-1.5034012,12.209032,LZ,EZH2,
+scRNA-seq,1.404323,11.587312,LZ,EZH2,
+scRNA-seq,-2.418475,10.775312,LZ,EZH2,
+scRNA-seq,2.9437,8.590631,LZ,EZH2,
+scRNA-seq,0.4680607,11.44412,LZ,EZH2,
+scRNA-seq,-3.0103579,10.745975,LZ,EZH2,
+scRNA-seq,0.21179281,10.119093,LZ,EZH2,
+scRNA-seq,1.4923269,10.440293,LZ,EZH2,
+scRNA-seq,-0.77452993,11.647395,LZ,EZH2,
+scRNA-seq,-0.7898143,11.585865,LZ,EZH2,
+scRNA-seq,2.3770502,10.066897,LZ,EZH2,
+scRNA-seq,3.2917943,10.179509,LZ,EZH2,
+scRNA-seq,-2.5448544,11.2368765,LZ,EZH2,
+scRNA-seq,1.1550196,11.833398,LZ,EZH2,
+scRNA-seq,0.064017884,10.809333,LZ,EZH2,
+scRNA-seq,-2.0286195,10.964418,LZ,EZH2,
+scRNA-seq,-0.03488041,10.076049,LZ,EZH2,
+scRNA-seq,-1.3730239,12.012881,LZ,EZH2,
+scRNA-seq,1.8217387,9.671361,LZ,EZH2,
+scRNA-seq,-0.20839874,10.743862,LZ,EZH2,
+scRNA-seq,2.1761966,9.243385,LZ,EZH2,
+scRNA-seq,1.9376701,10.701543,LZ,EZH2,
+scRNA-seq,-0.4711324,11.032729,LZ,EZH2,
+scRNA-seq,0.36990157,12.926721,LZ,EZH2,
+scRNA-seq,-5.2339272,6.3953395,DZ-LZ,EZH2,
+scRNA-seq,-2.4446964,10.090022,DZ-LZ,EZH2,
+scRNA-seq,-3.2392464,10.928609,DZ-LZ,EZH2,
+scRNA-seq,-3.3053832,4.1750855,DZ-LZ,EZH2,
+scRNA-seq,-4.815532,7.9842243,DZ-LZ,EZH2,
+scRNA-seq,-3.607031,5.0889263,DZ-LZ,EZH2,
+scRNA-seq,-3.3885722,10.733246,DZ-LZ,EZH2,
+scRNA-seq,-5.4400563,9.852655,DZ-LZ,EZH2,
+scRNA-seq,-4.3960214,5.436211,DZ-LZ,EZH2,
+scRNA-seq,-3.5347843,5.2999506,DZ-LZ,EZH2,
+scRNA-seq,-1.7014033,3.858124,DZ-LZ,EZH2,
+scRNA-seq,-3.884931,6.41252,DZ-LZ,EZH2,
+scRNA-seq,-3.8219,6.137347,DZ-LZ,EZH2,
+scRNA-seq,-3.069384,6.4915323,DZ-LZ,EZH2,
+scRNA-seq,-3.5525298,8.142249,DZ-LZ,EZH2,
+scRNA-seq,-5.580939,6.163095,DZ-LZ,EZH2,
+scRNA-seq,-4.5385313,8.624533,DZ-LZ,EZH2,
+scRNA-seq,-3.9555206,10.377686,DZ-LZ,EZH2,
+scRNA-seq,0.29785076,2.518185,DZ-LZ,EZH2,
+scRNA-seq,-4.3304563,10.218935,DZ-LZ,EZH2,
+scRNA-seq,-6.0738826,6.894826,DZ-LZ,EZH2,
+scRNA-seq,-4.096785,5.3204293,DZ-LZ,EZH2,
+scRNA-seq,-4.6960697,4.2958136,DZ-LZ,EZH2,
+scRNA-seq,-3.6015668,9.578924,DZ-LZ,EZH2,
+scRNA-seq,-3.89442,9.378181,DZ-LZ,EZH2,
+scRNA-seq,-2.9061148,11.133432,DZ-LZ,EZH2,
+scRNA-seq,-5.085979,6.401671,DZ-LZ,EZH2,
+scRNA-seq,-3.1081707,4.7001314,DZ-LZ,EZH2,
+scRNA-seq,-2.7923543,6.2864084,DZ-LZ,EZH2,
+scRNA-seq,-0.9389404,3.0057151,DZ-LZ,EZH2,
+scRNA-seq,-4.009834,9.090781,DZ-LZ,EZH2,
+scRNA-seq,-3.6821856,9.547872,DZ-LZ,EZH2,
+scRNA-seq,-3.2976434,10.455993,DZ-LZ,EZH2,
+scRNA-seq,-5.4721136,9.17645,DZ-LZ,EZH2,
+scRNA-seq,-5.5067444,9.650191,DZ-LZ,EZH2,
+scRNA-seq,-2.353679,9.024422,DZ-LZ,EZH2,
+scRNA-seq,-4.261378,6.4326334,DZ-LZ,EZH2,
+scRNA-seq,-2.482689,7.821101,DZ-LZ,EZH2,
+scRNA-seq,-3.317116,5.7401567,DZ-LZ,EZH2,
+scRNA-seq,-3.0743515,9.655237,DZ-LZ,EZH2,
+scRNA-seq,-3.5914013,5.766188,DZ-LZ,EZH2,
+scRNA-seq,-2.3603678,11.691764,DZ-LZ,EZH2,
+scRNA-seq,-1.9469987,7.857041,DZ-LZ,EZH2,
+scRNA-seq,-5.2023635,6.205192,DZ-LZ,EZH2,
+scRNA-seq,-0.020294154,10.972349,DZ-LZ,EZH2,
+scRNA-seq,-4.748013,4.9483604,DZ-LZ,EZH2,
+scRNA-seq,-3.966188,9.531566,DZ-LZ,EZH2,
+scRNA-seq,-5.2900696,8.466737,DZ-LZ,EZH2,
+scRNA-seq,-4.2912464,4.5525064,DZ-LZ,EZH2,
+scRNA-seq,-3.5646653,10.959417,DZ-LZ,EZH2,
+scRNA-seq,-2.6381726,6.8563366,DZ-LZ,EZH2,
+scRNA-seq,-4.775872,8.758324,DZ-LZ,EZH2,
+scRNA-seq,-0.8909097,2.7042022,DZ-LZ,EZH2,
+scRNA-seq,-3.7814648,5.5592313,DZ-LZ,EZH2,
+scRNA-seq,-2.2993438,11.695808,DZ-LZ,EZH2,
+scRNA-seq,-3.7045133,6.7884707,DZ-LZ,EZH2,
+scRNA-seq,-5.7777395,8.966447,DZ-LZ,EZH2,
+scRNA-seq,-4.6012797,8.145665,DZ-LZ,EZH2,
+scRNA-seq,-4.092762,7.5401716,DZ-LZ,EZH2,
+scRNA-seq,-4.313943,9.743046,DZ-LZ,EZH2,
+scRNA-seq,-4.128042,5.34469,DZ-LZ,EZH2,
+scRNA-seq,-3.0978756,9.358339,DZ-LZ,EZH2,
+scRNA-seq,-4.8286867,7.1967072,DZ-LZ,EZH2,
+scRNA-seq,-2.5596125,3.3722303,DZ-LZ,EZH2,
+scRNA-seq,-3.3127751,9.520584,DZ-LZ,EZH2,
+scRNA-seq,-2.6638114,10.601782,DZ-LZ,EZH2,
+scRNA-seq,-5.160321,8.372715,DZ-LZ,EZH2,
+scRNA-seq,-4.4843435,10.093038,DZ-LZ,EZH2,
+scRNA-seq,-5.0249667,6.839239,DZ-LZ,EZH2,
+scRNA-seq,-3.7206597,5.164253,DZ-LZ,EZH2,
+scRNA-seq,-3.2556794,7.855197,DZ-LZ,EZH2,
+scRNA-seq,-3.9024527,9.995337,DZ-LZ,EZH2,
+scRNA-seq,-4.8701982,5.9626083,DZ-LZ,EZH2,
+scRNA-seq,-4.97306,10.197622,DZ-LZ,EZH2,
+scRNA-seq,-5.214197,5.897149,DZ-LZ,EZH2,
+scRNA-seq,-0.1910799,2.1967914,DZ,EZH2,
+scRNA-seq,-4.383981,4.140843,DZ,EZH2,
+scRNA-seq,-2.1770298,3.8923957,DZ,EZH2,
+scRNA-seq,-2.7497375,1.0490787,DZ,EZH2,
+scRNA-seq,-1.595052,0.68160397,DZ,EZH2,
+scRNA-seq,-4.314965,6.6480217,DZ,EZH2,
+scRNA-seq,-4.0883784,5.7600546,DZ,EZH2,
+scRNA-seq,-1.2688725,0.36155504,DZ,EZH2,
+scRNA-seq,-0.34502563,2.6227725,DZ,EZH2,
+scRNA-seq,-0.17245491,0.5541603,DZ,EZH2,
+scRNA-seq,-3.74316,2.522965,DZ,EZH2,
+scRNA-seq,-4.2638507,5.243159,DZ,EZH2,
+scRNA-seq,-3.531432,2.600373,DZ,EZH2,
+scRNA-seq,-3.6477628,3.8222785,DZ,EZH2,
+scRNA-seq,-3.4677703,1.0908697,DZ,EZH2,
+scRNA-seq,-0.5216747,0.051532116,DZ,EZH2,
+scRNA-seq,-3.1371615,0.79166514,DZ,EZH2,
+scRNA-seq,-0.90900815,2.0840197,DZ,EZH2,
+scRNA-seq,-0.89775765,2.8961244,DZ,EZH2,
+scRNA-seq,-0.46882674,2.1206253,DZ,EZH2,
+scRNA-seq,-0.36615238,0.16284794,DZ,EZH2,
+scRNA-seq,-3.1174443,3.6589007,DZ,EZH2,
+scRNA-seq,-4.2098913,4.8578777,DZ,EZH2,
+scRNA-seq,-3.9372244,2.1736445,DZ,EZH2,
+scRNA-seq,-0.81169367,2.4275591,DZ,EZH2,
+scRNA-seq,-4.1352124,2.5699723,DZ,EZH2,
+scRNA-seq,-0.24235205,0.6208533,DZ,EZH2,
+scRNA-seq,-3.59876,3.162066,DZ,EZH2,
+scRNA-seq,-5.116933,6.542942,DZ,EZH2,
+scRNA-seq,-3.827414,6.7666383,DZ,EZH2,
+scRNA-seq,-0.679068,3.4698963,DZ,EZH2,
+scRNA-seq,-0.7410433,2.067185,DZ,EZH2,
+scRNA-seq,-0.7054386,0.53521854,DZ,EZH2,
+scRNA-seq,-4.16651,1.8351407,DZ,EZH2,
+scRNA-seq,-0.27866015,2.4091759,DZ,EZH2,
+scRNA-seq,-4.1513243,2.389804,DZ,EZH2,
+scRNA-seq,-0.00910569,0.79540294,DZ,EZH2,
+scRNA-seq,-4.73129,7.652108,DZ,EZH2,
+scRNA-seq,-0.72106045,2.5659618,DZ,EZH2,
+scRNA-seq,-0.4840319,1.2083448,DZ,EZH2,
+scRNA-seq,-1.0424228,1.9551344,DZ,EZH2,
+scRNA-seq,-1.5903091,1.0129896,DZ,EZH2,
+scRNA-seq,-1.1056288,1.6065831,DZ,EZH2,
+scRNA-seq,-0.7450473,1.8662672,DZ,EZH2,
+scRNA-seq,-0.6112532,2.7521217,DZ,EZH2,
+scRNA-seq,-3.7643049,4.862375,DZ,EZH2,
+scRNA-seq,-1.4035182,1.0030932,DZ,EZH2,
+scRNA-seq,-3.5344715,3.3066251,DZ,EZH2,
+scRNA-seq,0.30983114,2.3507285,DZ,EZH2,
+scRNA-seq,-2.1126628,3.0685925,DZ,EZH2,
+scRNA-seq,-0.4937205,0.5364275,DZ,EZH2,
+scRNA-seq,-3.3757052,4.2806983,DZ,EZH2,
+scRNA-seq,0.17983507,0.4397118,DZ,EZH2,
+scRNA-seq,-3.4323418,4.0801325,DZ,EZH2,
+scRNA-seq,-2.0835426,0.46097916,DZ,EZH2,
+scRNA-seq,-0.41037858,2.2353048,DZ,EZH2,
+scRNA-seq,-3.625946,1.0015222,DZ,EZH2,
+scRNA-seq,-3.6185088,4.876353,DZ,EZH2,
+scRNA-seq,-1.7801583,2.725211,DZ,EZH2,
+scRNA-seq,-1.4786515,0.2542193,DZ,EZH2,
+scRNA-seq,0.27181548,0.15666617,DZ,EZH2,
+scRNA-seq,0.056319155,2.6275535,DZ,EZH2,
+scRNA-seq,0.31122312,1.6989623,DZ,EZH2,
+scRNA-seq,-0.6795265,1.6551707,DZ,EZH2,
+scRNA-seq,-4.022272,4.756684,DZ,EZH2,
+scRNA-seq,-0.19621322,1.7971059,DZ,EZH2,
+scRNA-seq,-4.2105594,3.5771544,DZ,EZH2,
+scRNA-seq,-2.71468,0.7639409,DZ,EZH2,
+scRNA-seq,-2.9222682,3.273851,DZ,EZH2,
+scRNA-seq,-3.242597,4.226574,DZ,EZH2,
+scRNA-seq,-0.243148,1.8802179,DZ,EZH2,
+scRNA-seq,-2.260545,0.8423233,DZ,EZH2,
+scRNA-seq,-0.091837615,2.0256174,DZ,EZH2,
+scRNA-seq,-4.092819,2.726362,DZ,EZH2,
+scRNA-seq,-1.0788189,3.3067603,DZ,EZH2,
+scRNA-seq,0.9865275,12.582717,LZ,WT,
+scRNA-seq,-0.68695885,12.298988,LZ,WT,
+scRNA-seq,-2.3216963,11.331074,LZ,WT,
+scRNA-seq,0.19454554,13.014651,LZ,WT,
+scRNA-seq,1.9611028,10.144507,LZ,WT,
+scRNA-seq,1.6063715,11.664289,LZ,WT,
+scRNA-seq,-1.1364708,11.725209,LZ,WT,
+scRNA-seq,-0.31005213,12.818837,LZ,WT,
+scRNA-seq,1.411835,12.300183,LZ,WT,
+scRNA-seq,-2.0445476,12.258719,LZ,WT,
+scRNA-seq,3.3258817,9.045585,LZ,WT,
+scRNA-seq,-1.6572139,10.793453,LZ,WT,
+scRNA-seq,-1.2021985,12.727666,LZ,WT,
+scRNA-seq,2.7996328,9.24034,LZ,WT,
+scRNA-seq,2.2788856,9.783709,LZ,WT,
+scRNA-seq,1.948437,11.880193,LZ,WT,
+scRNA-seq,1.5051008,11.852195,LZ,WT,
+scRNA-seq,-0.13997328,10.788294,LZ,WT,
+scRNA-seq,0.11556336,12.454397,LZ,WT,
+scRNA-seq,1.355147,10.1160145,LZ,WT,
+scRNA-seq,1.6498141,11.765099,LZ,WT,
+scRNA-seq,3.347423,9.712482,LZ,WT,
+scRNA-seq,-1.1304945,12.516345,LZ,WT,
+scRNA-seq,0.069284245,12.676314,LZ,WT,
+scRNA-seq,-0.15547939,13.005031,LZ,WT,
+scRNA-seq,-0.2773539,11.901049,LZ,WT,
+scRNA-seq,2.1134322,10.124166,LZ,WT,
+scRNA-seq,2.6811147,9.719427,LZ,WT,
+scRNA-seq,2.7102184,8.986239,LZ,WT,
+scRNA-seq,2.1134155,11.074871,LZ,WT,
+scRNA-seq,2.523168,9.9768095,LZ,WT,
+scRNA-seq,3.5496273,9.626952,LZ,WT,
+scRNA-seq,0.58556616,11.171092,LZ,WT,
+scRNA-seq,0.9650431,11.0813265,LZ,WT,
+scRNA-seq,2.592758,9.224408,LZ,WT,
+scRNA-seq,2.9616375,9.427769,LZ,WT,
+scRNA-seq,0.4904019,12.666706,LZ,WT,
+scRNA-seq,2.800419,9.00222,LZ,WT,
+scRNA-seq,2.5876973,9.051891,LZ,WT,
+scRNA-seq,2.861364,11.237517,LZ,WT,
+scRNA-seq,1.3000845,9.251904,LZ,WT,
+scRNA-seq,2.7044637,8.72668,LZ,WT,
+scRNA-seq,0.3479734,11.928802,LZ,WT,
+scRNA-seq,-0.60436374,12.63975,LZ,WT,
+scRNA-seq,-0.99769586,11.964278,LZ,WT,
+scRNA-seq,-0.046496794,10.944386,LZ,WT,
+scRNA-seq,0.8308713,12.346258,LZ,WT,
+scRNA-seq,3.3595839,10.262528,LZ,WT,
+scRNA-seq,1.1212779,13.084732,LZ,WT,
+scRNA-seq,-2.0436726,12.544085,LZ,WT,
+scRNA-seq,-2.023938,12.335411,LZ,WT,
+scRNA-seq,-0.22356842,13.069482,LZ,WT,
+scRNA-seq,3.039827,9.018617,LZ,WT,
+scRNA-seq,1.8132645,11.402921,LZ,WT,
+scRNA-seq,1.9212126,12.192242,LZ,WT,
+scRNA-seq,-0.41253918,12.731008,LZ,WT,
+scRNA-seq,1.2038295,9.526262,LZ,WT,
+scRNA-seq,1.8370588,11.390774,LZ,WT,
+scRNA-seq,-3.616341,8.941262,LZ,WT,
+scRNA-seq,-0.28499755,12.954271,LZ,WT,
+scRNA-seq,-1.3069649,11.484678,LZ,WT,
+scRNA-seq,3.2088652,10.321437,LZ,WT,
+scRNA-seq,0.14140922,12.534846,LZ,WT,
+scRNA-seq,-1.9676906,12.45526,LZ,WT,
+scRNA-seq,2.1711433,11.651557,LZ,WT,
+scRNA-seq,0.5558386,9.718886,LZ,WT,
+scRNA-seq,1.2316203,9.714632,LZ,WT,
+scRNA-seq,2.8451257,9.932628,LZ,WT,
+scRNA-seq,3.0266805,10.19314,LZ,WT,
+scRNA-seq,-1.3067827,12.797855,LZ,WT,
+scRNA-seq,2.001623,8.665502,LZ,WT,
+scRNA-seq,0.56863666,11.762152,LZ,WT,
+scRNA-seq,3.695865,10.559108,LZ,WT,
+scRNA-seq,-2.7143757,11.629709,LZ,WT,
+scRNA-seq,-1.5950589,11.10151,LZ,WT,
+scRNA-seq,-4.9262824,9.951079,DZ-LZ,WT,
+scRNA-seq,-1.0903038,12.7936945,DZ-LZ,WT,
+scRNA-seq,0.96368134,11.876687,DZ-LZ,WT,
+scRNA-seq,-1.5873225,10.83847,DZ-LZ,WT,
+scRNA-seq,-5.219511,5.182159,DZ-LZ,WT,
+scRNA-seq,-4.4809284,9.912774,DZ-LZ,WT,
+scRNA-seq,-5.782045,7.626504,DZ-LZ,WT,
+scRNA-seq,-1.6538574,6.222095,DZ-LZ,WT,
+scRNA-seq,-4.4959226,7.1886353,DZ-LZ,WT,
+scRNA-seq,-2.0303779,6.7264414,DZ-LZ,WT,
+scRNA-seq,-5.422316,7.3091297,DZ-LZ,WT,
+scRNA-seq,-5.270097,9.089936,DZ-LZ,WT,
+scRNA-seq,-2.9379346,8.821574,DZ-LZ,WT,
+scRNA-seq,-3.9409313,9.200209,DZ-LZ,WT,
+scRNA-seq,-2.6030579,4.0202394,DZ-LZ,WT,
+scRNA-seq,-5.092467,9.571435,DZ-LZ,WT,
+scRNA-seq,-4.30222,3.856833,DZ-LZ,WT,
+scRNA-seq,-4.5468574,4.6218953,DZ-LZ,WT,
+scRNA-seq,-1.8806137,7.4413333,DZ-LZ,WT,
+scRNA-seq,-3.7042737,4.6291785,DZ-LZ,WT,
+scRNA-seq,-3.5110638,8.842776,DZ-LZ,WT,
+scRNA-seq,-2.756647,11.770848,DZ-LZ,WT,
+scRNA-seq,-1.9852676,6.7500935,DZ-LZ,WT,
+scRNA-seq,-3.811573,10.64902,DZ-LZ,WT,
+scRNA-seq,-3.9340074,10.095116,DZ-LZ,WT,
+scRNA-seq,-3.5323677,10.684153,DZ-LZ,WT,
+scRNA-seq,-2.328722,11.476005,DZ-LZ,WT,
+scRNA-seq,-2.3554025,7.7600822,DZ-LZ,WT,
+scRNA-seq,-1.6351693,6.6450624,DZ-LZ,WT,
+scRNA-seq,-5.312419,8.231792,DZ-LZ,WT,
+scRNA-seq,-3.2548184,8.283228,DZ-LZ,WT,
+scRNA-seq,-3.2154095,11.258443,DZ-LZ,WT,
+scRNA-seq,-5.6632857,7.059474,DZ-LZ,WT,
+scRNA-seq,-1.4238335,7.1251426,DZ-LZ,WT,
+scRNA-seq,-3.830534,9.778992,DZ-LZ,WT,
+scRNA-seq,-5.9270334,6.92511,DZ-LZ,WT,
+scRNA-seq,-1.4133159,6.8143616,DZ-LZ,WT,
+scRNA-seq,-3.545184,9.697149,DZ-LZ,WT,
+scRNA-seq,-5.145338,9.335665,DZ-LZ,WT,
+scRNA-seq,-4.35257,7.596972,DZ-LZ,WT,
+scRNA-seq,-4.064695,10.34205,DZ-LZ,WT,
+scRNA-seq,-3.449805,6.837948,DZ-LZ,WT,
+scRNA-seq,-2.9112084,7.6742244,DZ-LZ,WT,
+scRNA-seq,-4.871646,8.578993,DZ-LZ,WT,
+scRNA-seq,-0.63624066,8.492663,DZ-LZ,WT,
+scRNA-seq,-1.1273553,8.427522,DZ-LZ,WT,
+scRNA-seq,-0.9421541,12.43278,DZ-LZ,WT,
+scRNA-seq,-4.887968,4.8684535,DZ-LZ,WT,
+scRNA-seq,-5.2525024,7.8731027,DZ-LZ,WT,
+scRNA-seq,-2.1423004,6.381038,DZ-LZ,WT,
+scRNA-seq,-2.8872275,8.449993,DZ-LZ,WT,
+scRNA-seq,-1.3755734,8.0992,DZ-LZ,WT,
+scRNA-seq,-1.6831975,8.769722,DZ-LZ,WT,
+scRNA-seq,-4.370979,8.856781,DZ-LZ,WT,
+scRNA-seq,-3.5558789,10.724068,DZ-LZ,WT,
+scRNA-seq,-2.7748108,6.5417633,DZ-LZ,WT,
+scRNA-seq,-3.8973603,8.401828,DZ-LZ,WT,
+scRNA-seq,-3.7213602,6.1028876,DZ-LZ,WT,
+scRNA-seq,-4.513352,9.824248,DZ-LZ,WT,
+scRNA-seq,-4.222207,10.318107,DZ-LZ,WT,
+scRNA-seq,-1.9915371,7.237954,DZ-LZ,WT,
+scRNA-seq,-2.2590523,6.5798187,DZ-LZ,WT,
+scRNA-seq,-0.603171,8.179836,DZ-LZ,WT,
+scRNA-seq,-2.6570585,12.100925,DZ-LZ,WT,
+scRNA-seq,-5.0816717,6.752638,DZ-LZ,WT,
+scRNA-seq,-0.9864548,8.069541,DZ-LZ,WT,
+scRNA-seq,-4.3780932,4.708855,DZ-LZ,WT,
+scRNA-seq,-2.2433293,11.313766,DZ-LZ,WT,
+scRNA-seq,-3.88339,6.7273827,DZ-LZ,WT,
+scRNA-seq,-2.0448024,6.4626794,DZ-LZ,WT,
+scRNA-seq,-3.2925985,8.511117,DZ-LZ,WT,
+scRNA-seq,-4.102039,7.62015,DZ-LZ,WT,
+scRNA-seq,-2.671454,8.891115,DZ-LZ,WT,
+scRNA-seq,-5.055831,4.584412,DZ-LZ,WT,
+scRNA-seq,-2.3646421,11.198188,DZ-LZ,WT,
+scRNA-seq,-4.7945523,4.015457,DZ,WT,
+scRNA-seq,-0.51444244,1.7707278,DZ,WT,
+scRNA-seq,-0.31813413,2.3016777,DZ,WT,
+scRNA-seq,0.34392828,0.7856688,DZ,WT,
+scRNA-seq,0.5313427,-0.009504557,DZ,WT,
+scRNA-seq,-5.0465937,4.215726,DZ,WT,
+scRNA-seq,-4.1886926,2.8718047,DZ,WT,
+scRNA-seq,-4.957857,4.327776,DZ,WT,
+scRNA-seq,0.704341,0.33847815,DZ,WT,
+scRNA-seq,-1.2989601,7.7894692,DZ,WT,
+scRNA-seq,-4.428941,10.004653,DZ,WT,
+scRNA-seq,-4.303694,3.3469794,DZ,WT,
+scRNA-seq,-3.5706027,3.7970836,DZ,WT,
+scRNA-seq,-4.8599157,9.871492,DZ,WT,
+scRNA-seq,-4.10722,3.8570166,DZ,WT,
+scRNA-seq,-4.714422,5.2533174,DZ,WT,
+scRNA-seq,-3.5211127,4.4536176,DZ,WT,
+scRNA-seq,-0.9323402,-0.0026662752,DZ,WT,
+scRNA-seq,-3.0502436,7.0805182,DZ,WT,
+scRNA-seq,0.2887096,0.18487345,DZ,WT,
+scRNA-seq,0.05611686,1.6999046,DZ,WT,
+scRNA-seq,0.9173127,0.30878836,DZ,WT,
+scRNA-seq,-1.9562863,2.413404,DZ,WT,
+scRNA-seq,-4.4034843,4.770934,DZ,WT,
+scRNA-seq,1.0255792,0.6253924,DZ,WT,
+scRNA-seq,-0.7229143,2.1598358,DZ,WT,
+scRNA-seq,-0.71892846,0.09435115,DZ,WT,
+scRNA-seq,0.9050198,0.8888789,DZ,WT,
+scRNA-seq,-5.0118246,4.3539577,DZ,WT,
+scRNA-seq,-5.112017,4.6549516,DZ,WT,
+scRNA-seq,1.0187883,1.4468482,DZ,WT,
+scRNA-seq,-1.0218207,1.5458468,DZ,WT,
+scRNA-seq,0.29269966,1.65555,DZ,WT,
+scRNA-seq,-3.8466759,6.251718,DZ,WT,
+scRNA-seq,-3.5750523,4.011063,DZ,WT,
+scRNA-seq,-3.1692734,3.8940127,DZ,WT,
+scRNA-seq,0.3737845,2.706442,DZ,WT,
+scRNA-seq,1.096338,0.73093957,DZ,WT,
+scRNA-seq,-0.46767363,2.5835257,DZ,WT,
+scRNA-seq,-3.9886587,2.8827803,DZ,WT,
+scRNA-seq,-3.4405098,4.895997,DZ,WT,
+scRNA-seq,0.7962542,0.1532551,DZ,WT,
+scRNA-seq,-1.723063,1.5991856,DZ,WT,
+scRNA-seq,-3.3059204,3.3606827,DZ,WT,
+scRNA-seq,-0.3499752,1.8688924,DZ,WT,
+scRNA-seq,0.37639058,0.96586984,DZ,WT,
+scRNA-seq,-2.9929867,3.3769093,DZ,WT,
+scRNA-seq,-3.0019746,1.0010912,DZ,WT,
+scRNA-seq,-3.8131814,7.329267,DZ,WT,
+scRNA-seq,-2.4323173,0.39213,DZ,WT,
+scRNA-seq,-3.3764966,3.832731,DZ,WT,
+scRNA-seq,-4.4670568,4.0857677,DZ,WT,
+scRNA-seq,0.22084315,0.46631777,DZ,WT,
+scRNA-seq,-1.4926661,0.96374166,DZ,WT,
+scRNA-seq,0.3441346,0.2442273,DZ,WT,
+scRNA-seq,0.67494154,1.0320475,DZ,WT,
+scRNA-seq,-4.2210093,2.006959,DZ,WT,
+scRNA-seq,-0.3454042,2.879013,DZ,WT,
+scRNA-seq,-3.414438,7.1201615,DZ,WT,
+scRNA-seq,-4.7939367,4.350725,DZ,WT,
+scRNA-seq,-4.4652696,2.3371506,DZ,WT,
+scRNA-seq,0.59833944,0.602617,DZ,WT,
+scRNA-seq,-2.3200576,5.421872,DZ,WT,
+scRNA-seq,-1.1202374,3.0361345,DZ,WT,
+scRNA-seq,0.4901459,0.04096507,DZ,WT,
+scRNA-seq,-1.6228616,2.3797216,DZ,WT,
+scRNA-seq,-0.6383036,0.28928882,DZ,WT,
+scRNA-seq,-4.3693514,4.3270807,DZ,WT,
+scRNA-seq,-0.24857628,0.27423695,DZ,WT,
+scRNA-seq,-2.647163,0.3604745,DZ,WT,
+scRNA-seq,-1.4381218,0.06970066,DZ,WT,
+scRNA-seq,-4.528323,2.3099396,DZ,WT,
+scRNA-seq,1.0762914,0.91881764,DZ,WT,
+scRNA-seq,1.5346953,8.400208,DZ,WT,
+scRNA-seq,-4.760496,3.9490528,DZ,WT,
+expanded behavior,-2.1938498,1.2996715,DZ,mt_B-cell,0.0
+expanded behavior,-2.1442041,0.25543782,DZ,mt_B-cell,0.0
+expanded behavior,-2.8972545,3.2589161,DZ,mt_B-cell,0.0
+expanded behavior,-0.40066898,0.2673947,DZ,mt_B-cell,0.0
+expanded behavior,-3.6571457,1.5728817,DZ,mt_B-cell,0.0
+expanded behavior,-4.2177076,2.4834409,DZ,mt_B-cell,0.0
+expanded behavior,-3.4485102,1.2177507,DZ,mt_B-cell,0.0
+expanded behavior,-2.2412953,0.2703696,DZ,mt_B-cell,1.0
+expanded behavior,-2.127229,0.29898834,DZ,mt_B-cell,1.0
+expanded behavior,-2.1750798,3.298656,DZ,mt_B-cell,1.0
+expanded behavior,-1.0199392,0.75149816,DZ,mt_B-cell,1.0
+expanded behavior,-0.7595052,1.6498299,DZ,mt_B-cell,1.0
+expanded behavior,-1.8214093,3.6781397,DZ,mt_B-cell,1.0
+expanded behavior,-2.4569976,0.556987,DZ,mt_B-cell,1.0
+expanded behavior,-3.1920989,2.1546872,DZ,mt_B-cell,1.0
+expanded behavior,-3.7961261,4.068836,DZ,mt_B-cell,2.0
+expanded behavior,-2.9790342,2.9157388,DZ,mt_B-cell,2.0
+expanded behavior,0.6166728,0.6897344,DZ,mt_B-cell,2.0
+expanded behavior,-3.4935443,3.1230803,DZ,mt_B-cell,2.0
+expanded behavior,-1.7668492,3.5503292,DZ,mt_B-cell,2.0
+expanded behavior,0.91632324,0.23147753,DZ,mt_B-cell,3.0
+expanded behavior,0.48519063,0.22765262,DZ,mt_B-cell,3.0
+expanded behavior,-2.5603104,2.8550587,DZ,mt_B-cell,3.0
+expanded behavior,-3.3907275,2.2017317,DZ,mt_B-cell,3.0
+expanded behavior,-1.7447542,0.735947,DZ,mt_B-cell,3.0
+expanded behavior,-2.2517202,3.5082598,DZ,mt_B-cell,4.0
+expanded behavior,-1.9270116,1.644058,DZ,mt_B-cell,4.0
+expanded behavior,-1.8077681,3.944821,DZ,mt_B-cell,4.0
+expanded behavior,-0.02507824,1.4493318,DZ,mt_B-cell,4.0
+expanded behavior,-1.4359801,3.5219073,DZ,mt_B-cell,4.0
+expanded behavior,0.013103685,0.88883066,DZ,mt_B-cell,4.0
+expanded behavior,-0.5078217,1.4323064,DZ,mt_B-cell,4.0
+expanded behavior,-0.64741087,0.9533256,DZ,mt_B-cell,4.0
+expanded behavior,-0.74337614,1.4188135,DZ,mt_B-cell,4.0
+expanded behavior,-0.96572477,1.9530433,DZ,mt_B-cell,4.0
+expanded behavior,-3.2878025,2.7690969,DZ,mt_B-cell,4.0
+expanded behavior,-3.384679,1.2657175,DZ,mt_B-cell,4.0
+expanded behavior,-1.5576603,3.188714,DZ,mt_B-cell,4.0
+expanded behavior,-0.6580094,1.9607131,DZ,mt_B-cell,4.0
+expanded behavior,-1.0923246,1.8203248,DZ,mt_B-cell,5.0
+expanded behavior,-1.1373123,1.3318967,DZ,mt_B-cell,5.0
+expanded behavior,0.18093918,1.0501932,DZ,mt_B-cell,5.0
+expanded behavior,0.96863365,0.335631,DZ,mt_B-cell,5.0
+expanded behavior,-1.819723,0.57503784,DZ,mt_B-cell,5.0
+expanded behavior,0.029874012,0.32165807,DZ,mt_B-cell,5.0
+expanded behavior,-0.73117054,0.8126501,DZ,mt_B-cell,5.0
+expanded behavior,0.72618264,0.46226984,DZ,mt_B-cell,5.0
+expanded behavior,-1.2409649,1.3395369,DZ,mt_B-cell,5.0
+expanded behavior,-2.9939346,3.9522588,DZ,mt_B-cell,6.0
+expanded behavior,0.6256399,1.8708199,DZ,mt_B-cell,6.0
+expanded behavior,-2.8572023,2.530934,DZ,mt_B-cell,6.0
+expanded behavior,-2.1393888,2.59722,DZ,mt_B-cell,6.0
+expanded behavior,-1.619258,0.24940677,DZ,mt_B-cell,6.0
+expanded behavior,-2.8885443,1.860363,DZ,mt_B-cell,6.0
+expanded behavior,-2.1560588,3.860217,DZ,mt_B-cell,6.0
+expanded behavior,-1.843673,3.2734811,DZ,mt_B-cell,6.0
+expanded behavior,0.53353703,0.6767035,DZ,mt_B-cell,7.0
+expanded behavior,-0.11815212,1.802483,DZ,mt_B-cell,7.0
+expanded behavior,1.1372925,0.8179093,DZ,mt_B-cell,7.0
+expanded behavior,0.26562494,2.3917258,DZ,mt_B-cell,7.0
+expanded behavior,0.3888009,0.4535635,DZ,mt_B-cell,7.0
+expanded behavior,-0.479406,1.1067291,DZ,mt_B-cell,7.0
+expanded behavior,0.16762292,2.0222201,DZ,mt_B-cell,7.0
+expanded behavior,0.5791985,1.5707471,DZ,mt_B-cell,7.0
+expanded behavior,0.98952276,1.1717372,DZ,mt_B-cell,7.0
+expanded behavior,-0.5172494,1.4845496,DZ,mt_B-cell,7.0
+expanded behavior,0.016588597,1.6063318,DZ,mt_B-cell,7.0
+expanded behavior,0.23067807,0.9224321,DZ,mt_B-cell,7.0
+expanded behavior,1.010894,1.2721874,DZ,mt_B-cell,8.0
+expanded behavior,-0.9280124,0.15109462,DZ,mt_B-cell,8.0
+expanded behavior,0.9990412,1.0854366,DZ,mt_B-cell,8.0
+expanded behavior,-2.2829807,5.4272695,DZ,mt_B-cell,8.0
+expanded behavior,-1.971468,0.2793004,DZ,mt_B-cell,8.0
+expanded behavior,0.73896277,1.1475489,DZ,mt_B-cell,8.0
+expanded behavior,1.1353647,0.9953957,DZ,mt_B-cell,8.0
+expanded behavior,-4.1786304,9.912584,DZ-LZ,mt_B-cell,0.0
+expanded behavior,-4.8892264,7.955077,DZ-LZ,mt_B-cell,0.0
+expanded behavior,-3.3546736,7.0297923,DZ-LZ,mt_B-cell,0.0
+expanded behavior,-3.2187517,7.693519,DZ-LZ,mt_B-cell,0.0
+expanded behavior,-4.262578,7.297126,DZ-LZ,mt_B-cell,0.0
+expanded behavior,-4.858679,9.497714,DZ-LZ,mt_B-cell,0.0
+expanded behavior,-3.0676045,8.593198,DZ-LZ,mt_B-cell,0.0
+expanded behavior,-4.7208242,10.115083,DZ-LZ,mt_B-cell,0.0
+expanded behavior,-2.9701715,7.975807,DZ-LZ,mt_B-cell,1.0
+expanded behavior,-3.6397922,10.007632,DZ-LZ,mt_B-cell,1.0
+expanded behavior,-3.277345,7.114773,DZ-LZ,mt_B-cell,1.0
+expanded behavior,-5.9110956,8.368646,DZ-LZ,mt_B-cell,2.0
+expanded behavior,-5.5017424,9.693311,DZ-LZ,mt_B-cell,2.0
+expanded behavior,-4.313017,9.052707,DZ-LZ,mt_B-cell,2.0
+expanded behavior,-4.259725,10.067045,DZ-LZ,mt_B-cell,2.0
+expanded behavior,-5.3262386,7.714715,DZ-LZ,mt_B-cell,2.0
+expanded behavior,-4.833265,6.9512115,DZ-LZ,mt_B-cell,2.0
+expanded behavior,-4.916943,6.3813453,DZ-LZ,mt_B-cell,3.0
+expanded behavior,-4.179158,8.904749,DZ-LZ,mt_B-cell,3.0
+expanded behavior,-3.942902,10.264176,DZ-LZ,mt_B-cell,3.0
+expanded behavior,-4.9694796,10.045932,DZ-LZ,mt_B-cell,3.0
+expanded behavior,-4.3959994,6.7193313,DZ-LZ,mt_B-cell,3.0
+expanded behavior,-2.9738398,7.81109,DZ-LZ,mt_B-cell,3.0
+expanded behavior,-2.0596216,6.9892163,DZ-LZ,mt_B-cell,3.0
+expanded behavior,-1.8444667,6.53233,DZ-LZ,mt_B-cell,3.0
+expanded behavior,-5.2976203,9.104844,DZ-LZ,mt_B-cell,4.0
+expanded behavior,-3.478046,9.998586,DZ-LZ,mt_B-cell,4.0
+expanded behavior,-4.84158,10.031758,DZ-LZ,mt_B-cell,4.0
+expanded behavior,-5.25635,8.972539,DZ-LZ,mt_B-cell,4.0
+expanded behavior,-3.6244822,8.058472,DZ-LZ,mt_B-cell,4.0
+expanded behavior,-4.472441,9.292149,DZ-LZ,mt_B-cell,4.0
+expanded behavior,-5.524478,8.792458,DZ-LZ,mt_B-cell,4.0
+expanded behavior,-2.3039298,8.391519,DZ-LZ,mt_B-cell,4.0
+expanded behavior,-5.9900208,7.443126,DZ-LZ,mt_B-cell,4.0
+expanded behavior,-1.9251641,6.5441003,DZ-LZ,mt_B-cell,5.0
+expanded behavior,-1.9859536,7.1314483,DZ-LZ,mt_B-cell,5.0
+expanded behavior,-4.6944633,7.4805317,DZ-LZ,mt_B-cell,5.0
+expanded behavior,-4.191705,9.282703,DZ-LZ,mt_B-cell,5.0
+expanded behavior,-1.4601464,8.052604,DZ-LZ,mt_B-cell,5.0
+expanded behavior,-1.386541,8.062806,DZ-LZ,mt_B-cell,5.0
+expanded behavior,-1.8410515,6.3838606,DZ-LZ,mt_B-cell,5.0
+expanded behavior,-1.923835,6.6841817,DZ-LZ,mt_B-cell,5.0
+expanded behavior,-1.6960815,8.335587,DZ-LZ,mt_B-cell,5.0
+expanded behavior,-4.618778,9.443357,DZ-LZ,mt_B-cell,5.0
+expanded behavior,-2.498979,7.801385,DZ-LZ,mt_B-cell,5.0
+expanded behavior,-2.5324779,8.395885,DZ-LZ,mt_B-cell,5.0
+expanded behavior,-1.7168356,6.392901,DZ-LZ,mt_B-cell,5.0
+expanded behavior,-2.163136,7.846672,DZ-LZ,mt_B-cell,6.0
+expanded behavior,-3.693572,8.495142,DZ-LZ,mt_B-cell,6.0
+expanded behavior,-3.9068449,7.6867166,DZ-LZ,mt_B-cell,6.0
+expanded behavior,-5.590563,7.3100967,DZ-LZ,mt_B-cell,6.0
+expanded behavior,-5.017521,6.8742266,DZ-LZ,mt_B-cell,6.0
+expanded behavior,-4.0209274,6.290893,DZ-LZ,mt_B-cell,6.0
+expanded behavior,-5.460502,7.527764,DZ-LZ,mt_B-cell,6.0
+expanded behavior,-5.3065443,9.4569645,DZ-LZ,mt_B-cell,6.0
+expanded behavior,-3.9900844,8.363259,DZ-LZ,mt_B-cell,6.0
+expanded behavior,-4.770445,9.061255,DZ-LZ,mt_B-cell,6.0
+expanded behavior,-5.4701242,6.725374,DZ-LZ,mt_B-cell,6.0
+expanded behavior,-5.3407497,8.730568,DZ-LZ,mt_B-cell,6.0
+expanded behavior,-4.386013,9.722536,DZ-LZ,mt_B-cell,6.0
+expanded behavior,-4.8328404,10.2108345,DZ-LZ,mt_B-cell,6.0
+expanded behavior,-2.289367,7.1601334,DZ-LZ,mt_B-cell,6.0
+expanded behavior,-3.7790313,9.571128,DZ-LZ,mt_B-cell,7.0
+expanded behavior,-1.8736949,8.087512,DZ-LZ,mt_B-cell,7.0
+expanded behavior,-1.7201265,7.0545497,DZ-LZ,mt_B-cell,7.0
+expanded behavior,-0.84022355,7.9857316,DZ-LZ,mt_B-cell,7.0
+expanded behavior,-1.949171,8.4634905,DZ-LZ,mt_B-cell,7.0
+expanded behavior,-1.8868372,7.2050433,DZ-LZ,mt_B-cell,7.0
+expanded behavior,-1.6159428,7.2861643,DZ-LZ,mt_B-cell,7.0
+expanded behavior,-1.6912371,7.274293,DZ-LZ,mt_B-cell,7.0
+expanded behavior,-2.8138945,8.792941,DZ-LZ,mt_B-cell,7.0
+expanded behavior,-1.858855,6.850512,DZ-LZ,mt_B-cell,7.0
+expanded behavior,-1.8509238,8.072594,DZ-LZ,mt_B-cell,8.0
+expanded behavior,-1.1844856,8.266488,DZ-LZ,mt_B-cell,8.0
+expanded behavior,-3.6982594,9.042791,DZ-LZ,mt_B-cell,8.0
+expanded behavior,3.0205288,8.925794,LZ,mt_B-cell,0.0
+expanded behavior,2.2839754,11.197415,LZ,mt_B-cell,0.0
+expanded behavior,1.5617146,9.573729,LZ,mt_B-cell,0.0
+expanded behavior,-0.19733654,12.475823,LZ,mt_B-cell,0.0
+expanded behavior,-0.50165915,12.697281,LZ,mt_B-cell,0.0
+expanded behavior,3.3597155,9.906018,LZ,mt_B-cell,0.0
+expanded behavior,1.2922503,10.195022,LZ,mt_B-cell,0.0
+expanded behavior,1.796244,9.889013,LZ,mt_B-cell,0.0
+expanded behavior,3.5906923,9.556934,LZ,mt_B-cell,0.0
+expanded behavior,0.46568385,12.559288,LZ,mt_B-cell,0.0
+expanded behavior,-0.40127984,13.38625,LZ,mt_B-cell,0.0
+expanded behavior,3.4155257,9.764302,LZ,mt_B-cell,0.0
+expanded behavior,-0.4178817,10.454098,LZ,mt_B-cell,0.0
+expanded behavior,-1.7118905,12.111338,LZ,mt_B-cell,0.0
+expanded behavior,-0.8011435,11.199154,LZ,mt_B-cell,0.0
+expanded behavior,-1.8290865,12.396688,LZ,mt_B-cell,1.0
+expanded behavior,0.5799223,13.010237,LZ,mt_B-cell,1.0
+expanded behavior,-0.83076304,11.237361,LZ,mt_B-cell,1.0
+expanded behavior,-0.6504477,13.174102,LZ,mt_B-cell,1.0
+expanded behavior,3.5166504,10.375495,LZ,mt_B-cell,1.0
+expanded behavior,-0.46838722,11.085739,LZ,mt_B-cell,1.0
+expanded behavior,2.5295026,11.248354,LZ,mt_B-cell,1.0
+expanded behavior,1.5135865,10.519384,LZ,mt_B-cell,1.0
+expanded behavior,-0.62460446,12.650684,LZ,mt_B-cell,1.0
+expanded behavior,1.8136187,10.59133,LZ,mt_B-cell,1.0
+expanded behavior,2.9988365,9.738181,LZ,mt_B-cell,1.0
+expanded behavior,-0.25835484,12.618332,LZ,mt_B-cell,1.0
+expanded behavior,0.093377575,12.170452,LZ,mt_B-cell,1.0
+expanded behavior,1.1461669,10.9915905,LZ,mt_B-cell,1.0
+expanded behavior,2.909526,9.7668915,LZ,mt_B-cell,2.0
+expanded behavior,1.5924699,12.375725,LZ,mt_B-cell,2.0
+expanded behavior,3.1541948,10.627364,LZ,mt_B-cell,2.0
+expanded behavior,-0.08676537,13.35437,LZ,mt_B-cell,2.0
+expanded behavior,-2.0084834,12.291958,LZ,mt_B-cell,2.0
+expanded behavior,-1.7142038,11.873498,LZ,mt_B-cell,2.0
+expanded behavior,-1.2201458,12.817986,LZ,mt_B-cell,2.0
+expanded behavior,-1.4680113,11.649343,LZ,mt_B-cell,2.0
+expanded behavior,0.08457759,12.155352,LZ,mt_B-cell,2.0
+expanded behavior,0.90194786,10.7340555,LZ,mt_B-cell,2.0
+expanded behavior,0.09821961,11.43491,LZ,mt_B-cell,2.0
+expanded behavior,0.28372326,13.085273,LZ,mt_B-cell,3.0
+expanded behavior,0.5616846,10.880444,LZ,mt_B-cell,3.0
+expanded behavior,-0.48244312,10.534556,LZ,mt_B-cell,3.0
+expanded behavior,-1.8057315,12.209134,LZ,mt_B-cell,3.0
+expanded behavior,0.68105346,10.278487,LZ,mt_B-cell,3.0
+expanded behavior,0.27297962,11.110797,LZ,mt_B-cell,3.0
+expanded behavior,-1.5960057,12.802854,LZ,mt_B-cell,3.0
+expanded behavior,0.39612737,13.290133,LZ,mt_B-cell,4.0
+expanded behavior,0.37269515,11.406461,LZ,mt_B-cell,4.0
+expanded behavior,0.6981415,10.169402,LZ,mt_B-cell,4.0
+expanded behavior,2.249937,9.489496,LZ,mt_B-cell,4.0
+expanded behavior,-1.9412895,11.381629,LZ,mt_B-cell,4.0
+expanded behavior,1.7252334,9.484244,LZ,mt_B-cell,4.0
+expanded behavior,1.6222799,9.621717,LZ,mt_B-cell,4.0
+expanded behavior,1.7600776,9.505142,LZ,mt_B-cell,5.0
+expanded behavior,2.4045148,9.445496,LZ,mt_B-cell,5.0
+expanded behavior,3.1881883,9.264872,LZ,mt_B-cell,5.0
+expanded behavior,3.2240758,10.719291,LZ,mt_B-cell,6.0
+expanded behavior,2.8170447,9.17719,LZ,mt_B-cell,6.0
+expanded behavior,2.2725766,9.28754,LZ,mt_B-cell,6.0
+expanded behavior,2.3808503,10.813834,LZ,mt_B-cell,6.0
+expanded behavior,-0.11385686,11.941438,LZ,mt_B-cell,6.0
+expanded behavior,1.0143149,12.778657,LZ,mt_B-cell,6.0
+expanded behavior,1.3989111,10.07136,LZ,mt_B-cell,6.0
+expanded behavior,-0.40928832,13.234715,LZ,mt_B-cell,6.0
+expanded behavior,3.402272,9.120203,LZ,mt_B-cell,6.0
+expanded behavior,3.6060658,9.570928,LZ,mt_B-cell,7.0
+expanded behavior,1.7527789,9.203531,LZ,mt_B-cell,7.0
+expanded behavior,2.4979928,8.893928,LZ,mt_B-cell,7.0
+expanded behavior,2.6235323,8.761548,LZ,mt_B-cell,7.0
+expanded behavior,2.6545181,8.882171,LZ,mt_B-cell,7.0
+expanded behavior,3.6071858,9.420508,LZ,mt_B-cell,8.0
+expanded behavior,3.599911,9.546568,LZ,mt_B-cell,8.0
+expanded behavior,1.9369847,9.723883,LZ,mt_B-cell,8.0
+expanded behavior,1.4042178,9.126921,LZ,mt_B-cell,8.0
+expanded behavior,-4.0667562,2.0002313,DZ,wt_B-cell,0.0
+expanded behavior,-2.168901,3.647886,DZ,wt_B-cell,0.0
+expanded behavior,-1.8892322,3.013177,DZ,wt_B-cell,0.0
+expanded behavior,-3.7267125,1.6000297,DZ,wt_B-cell,0.0
+expanded behavior,-4.3260946,1.9117126,DZ,wt_B-cell,0.0
+expanded behavior,-4.2056384,2.5399137,DZ,wt_B-cell,0.0
+expanded behavior,-2.6555178,0.57708377,DZ,wt_B-cell,0.0
+expanded behavior,-4.3987613,2.5370567,DZ,wt_B-cell,0.0
+expanded behavior,-4.1204696,2.6745067,DZ,wt_B-cell,0.0
+expanded behavior,-4.1159506,1.930979,DZ,wt_B-cell,0.0
+expanded behavior,-2.8613665,2.317215,DZ,wt_B-cell,0.0
+expanded behavior,-2.616379,3.0039961,DZ,wt_B-cell,1.0
+expanded behavior,-2.9924352,1.8147916,DZ,wt_B-cell,1.0
+expanded behavior,-3.7980778,3.1582243,DZ,wt_B-cell,1.0
+expanded behavior,-3.9379928,2.20403,DZ,wt_B-cell,1.0
+expanded behavior,-3.4504924,1.8130213,DZ,wt_B-cell,1.0
+expanded behavior,-2.288716,3.9950218,DZ,wt_B-cell,1.0
+expanded behavior,-3.6696866,1.0441369,DZ,wt_B-cell,2.0
+expanded behavior,-2.6670527,4.008954,DZ,wt_B-cell,2.0
+expanded behavior,-1.950907,3.771172,DZ,wt_B-cell,2.0
+expanded behavior,-4.296628,3.3035097,DZ,wt_B-cell,2.0
+expanded behavior,-3.2349608,0.77219224,DZ,wt_B-cell,2.0
+expanded behavior,-1.9413251,1.7411423,DZ,wt_B-cell,2.0
+expanded behavior,-2.6902354,2.0905306,DZ,wt_B-cell,2.0
+expanded behavior,-3.1349602,1.1073343,DZ,wt_B-cell,2.0
+expanded behavior,-2.4625862,3.8037374,DZ,wt_B-cell,2.0
+expanded behavior,-3.3202353,2.0757818,DZ,wt_B-cell,2.0
+expanded behavior,-2.796289,0.3992216,DZ,wt_B-cell,2.0
+expanded behavior,-2.512577,2.9582446,DZ,wt_B-cell,2.0
+expanded behavior,-3.4095185,4.066983,DZ,wt_B-cell,2.0
+expanded behavior,-3.6057446,3.6577053,DZ,wt_B-cell,2.0
+expanded behavior,-4.1351695,3.6204753,DZ,wt_B-cell,2.0
+expanded behavior,-2.651527,1.5198865,DZ,wt_B-cell,2.0
+expanded behavior,-2.483937,1.8344501,DZ,wt_B-cell,2.0
+expanded behavior,-3.4184575,3.7262657,DZ,wt_B-cell,2.0
+expanded behavior,-3.5554647,2.6590326,DZ,wt_B-cell,2.0
+expanded behavior,-2.0650802,1.2714521,DZ,wt_B-cell,2.0
+expanded behavior,-4.1521535,3.4464471,DZ,wt_B-cell,2.0
+expanded behavior,-3.8306823,3.8613355,DZ,wt_B-cell,2.0
+expanded behavior,-2.4354057,0.3708324,DZ,wt_B-cell,2.0
+expanded behavior,-1.7017862,0.268956,DZ,wt_B-cell,2.0
+expanded behavior,-4.202851,2.1325998,DZ,wt_B-cell,2.0
+expanded behavior,-3.9214811,3.372724,DZ,wt_B-cell,2.0
+expanded behavior,-3.3423386,1.9048603,DZ,wt_B-cell,3.0
+expanded behavior,-1.5329344,0.3269322,DZ,wt_B-cell,3.0
+expanded behavior,-2.958675,0.8841294,DZ,wt_B-cell,3.0
+expanded behavior,1.139946,0.34869432,DZ,wt_B-cell,3.0
+expanded behavior,0.14440504,1.1300958,DZ,wt_B-cell,3.0
+expanded behavior,-2.9189196,2.7391317,DZ,wt_B-cell,3.0
+expanded behavior,1.2132925,0.55818564,DZ,wt_B-cell,3.0
+expanded behavior,1.2129965,0.6467344,DZ,wt_B-cell,3.0
+expanded behavior,-3.3695495,2.3254726,DZ,wt_B-cell,3.0
+expanded behavior,-3.9729464,3.2907329,DZ,wt_B-cell,4.0
+expanded behavior,-3.1046038,1.4311676,DZ,wt_B-cell,4.0
+expanded behavior,-2.9336624,1.8825052,DZ,wt_B-cell,4.0
+expanded behavior,-4.2450438,3.1659899,DZ,wt_B-cell,4.0
+expanded behavior,-2.0358722,3.6854684,DZ,wt_B-cell,4.0
+expanded behavior,-2.062926,3.153828,DZ,wt_B-cell,4.0
+expanded behavior,-4.0250034,1.7922046,DZ,wt_B-cell,4.0
+expanded behavior,-3.367056,2.9553094,DZ,wt_B-cell,4.0
+expanded behavior,-2.3616714,1.6692554,DZ,wt_B-cell,4.0
+expanded behavior,-0.6530223,1.5356458,DZ,wt_B-cell,5.0
+expanded behavior,1.0603776,0.544489,DZ,wt_B-cell,5.0
+expanded behavior,0.39544103,2.1342266,DZ,wt_B-cell,5.0
+expanded behavior,-0.18169038,1.1362656,DZ,wt_B-cell,5.0
+expanded behavior,-2.019018,1.041934,DZ,wt_B-cell,6.0
+expanded behavior,-1.325674,3.263843,DZ,wt_B-cell,6.0
+expanded behavior,-3.993995,2.3202724,DZ,wt_B-cell,6.0
+expanded behavior,0.018908188,-0.018026771,DZ,wt_B-cell,6.0
+expanded behavior,0.5873891,0.054206185,DZ,wt_B-cell,6.0
+expanded behavior,-3.2786553,3.5998333,DZ,wt_B-cell,6.0
+expanded behavior,-1.1970924,0.7461569,DZ,wt_B-cell,6.0
+expanded behavior,-2.0369778,2.5727296,DZ,wt_B-cell,6.0
+expanded behavior,-0.6951081,1.0629654,DZ,wt_B-cell,8.0
+expanded behavior,-1.8069068,0.47763512,DZ,wt_B-cell,8.0
+expanded behavior,-4.2245708,7.7544093,DZ-LZ,wt_B-cell,0.0
+expanded behavior,-4.051641,9.375188,DZ-LZ,wt_B-cell,0.0
+expanded behavior,-2.3965096,7.092683,DZ-LZ,wt_B-cell,0.0
+expanded behavior,-5.3429456,7.852534,DZ-LZ,wt_B-cell,0.0
+expanded behavior,-5.6044903,9.49554,DZ-LZ,wt_B-cell,0.0
+expanded behavior,-4.243218,8.200453,DZ-LZ,wt_B-cell,0.0
+expanded behavior,-5.1333475,8.505389,DZ-LZ,wt_B-cell,0.0
+expanded behavior,-4.35624,6.2763805,DZ-LZ,wt_B-cell,0.0
+expanded behavior,-5.8117514,7.7087793,DZ-LZ,wt_B-cell,0.0
+expanded behavior,-4.3065248,7.794807,DZ-LZ,wt_B-cell,0.0
+expanded behavior,-4.573756,6.237398,DZ-LZ,wt_B-cell,0.0
+expanded behavior,-5.6531453,6.726549,DZ-LZ,wt_B-cell,0.0
+expanded behavior,-5.9605103,7.266324,DZ-LZ,wt_B-cell,0.0
+expanded behavior,-4.2543845,6.398628,DZ-LZ,wt_B-cell,0.0
+expanded behavior,-4.7202234,6.2052255,DZ-LZ,wt_B-cell,1.0
+expanded behavior,-5.516593,9.3115635,DZ-LZ,wt_B-cell,1.0
+expanded behavior,-5.376353,9.778674,DZ-LZ,wt_B-cell,1.0
+expanded behavior,-4.905192,7.18084,DZ-LZ,wt_B-cell,1.0
+expanded behavior,-5.5654593,7.594995,DZ-LZ,wt_B-cell,1.0
+expanded behavior,-4.0723333,7.2158184,DZ-LZ,wt_B-cell,1.0
+expanded behavior,-5.7976394,6.550235,DZ-LZ,wt_B-cell,2.0
+expanded behavior,-5.2359247,9.882147,DZ-LZ,wt_B-cell,2.0
+expanded behavior,-4.8361936,7.0924006,DZ-LZ,wt_B-cell,2.0
+expanded behavior,-5.5671186,6.8801274,DZ-LZ,wt_B-cell,2.0
+expanded behavior,-5.4848013,8.975534,DZ-LZ,wt_B-cell,2.0
+expanded behavior,-5.0478654,9.702579,DZ-LZ,wt_B-cell,2.0
+expanded behavior,-4.515496,7.565082,DZ-LZ,wt_B-cell,2.0
+expanded behavior,-5.199521,9.094613,DZ-LZ,wt_B-cell,2.0
+expanded behavior,-4.6361465,9.848374,DZ-LZ,wt_B-cell,2.0
+expanded behavior,-2.9555602,7.4880853,DZ-LZ,wt_B-cell,2.0
+expanded behavior,-5.7479315,6.666461,DZ-LZ,wt_B-cell,2.0
+expanded behavior,-5.492962,8.077431,DZ-LZ,wt_B-cell,2.0
+expanded behavior,-5.090783,6.970191,DZ-LZ,wt_B-cell,2.0
+expanded behavior,-4.6336474,7.913541,DZ-LZ,wt_B-cell,2.0
+expanded behavior,-5.1080847,7.505623,DZ-LZ,wt_B-cell,2.0
+expanded behavior,-6.0227013,7.469845,DZ-LZ,wt_B-cell,2.0
+expanded behavior,-3.7573903,6.234117,DZ-LZ,wt_B-cell,2.0
+expanded behavior,-4.050421,8.908425,DZ-LZ,wt_B-cell,2.0
+expanded behavior,-4.380707,7.9992485,DZ-LZ,wt_B-cell,2.0
+expanded behavior,-4.39311,6.5554786,DZ-LZ,wt_B-cell,2.0
+expanded behavior,-5.7588196,8.875519,DZ-LZ,wt_B-cell,2.0
+expanded behavior,-4.9903708,8.664743,DZ-LZ,wt_B-cell,2.0
+expanded behavior,-5.5866203,8.851449,DZ-LZ,wt_B-cell,2.0
+expanded behavior,-5.16259,6.1314187,DZ-LZ,wt_B-cell,2.0
+expanded behavior,-4.7939677,9.190775,DZ-LZ,wt_B-cell,3.0
+expanded behavior,-3.6521683,8.831797,DZ-LZ,wt_B-cell,3.0
+expanded behavior,-4.2963996,9.412778,DZ-LZ,wt_B-cell,3.0
+expanded behavior,-3.8776762,7.641076,DZ-LZ,wt_B-cell,3.0
+expanded behavior,-2.7890933,7.554744,DZ-LZ,wt_B-cell,3.0
+expanded behavior,-4.4622645,8.426137,DZ-LZ,wt_B-cell,3.0
+expanded behavior,-5.0609684,7.3844957,DZ-LZ,wt_B-cell,3.0
+expanded behavior,-3.2039452,8.861047,DZ-LZ,wt_B-cell,3.0
+expanded behavior,-3.6861084,7.3384576,DZ-LZ,wt_B-cell,3.0
+expanded behavior,-4.6125793,10.259742,DZ-LZ,wt_B-cell,3.0
+expanded behavior,-4.962175,7.550385,DZ-LZ,wt_B-cell,3.0
+expanded behavior,-4.5307117,10.160627,DZ-LZ,wt_B-cell,4.0
+expanded behavior,-5.8154607,6.9752297,DZ-LZ,wt_B-cell,4.0
+expanded behavior,-5.633415,8.35251,DZ-LZ,wt_B-cell,4.0
+expanded behavior,-5.7078667,6.681572,DZ-LZ,wt_B-cell,4.0
+expanded behavior,-4.494162,6.4729624,DZ-LZ,wt_B-cell,4.0
+expanded behavior,-5.6091905,7.234347,DZ-LZ,wt_B-cell,4.0
+expanded behavior,-2.2584505,7.1749816,DZ-LZ,wt_B-cell,5.0
+expanded behavior,-5.0738096,7.160598,DZ-LZ,wt_B-cell,5.0
+expanded behavior,-3.585833,8.789953,DZ-LZ,wt_B-cell,6.0
+expanded behavior,-4.384422,9.553781,DZ-LZ,wt_B-cell,6.0
+expanded behavior,-3.0223525,8.379737,DZ-LZ,wt_B-cell,6.0
+expanded behavior,-3.322348,8.621496,DZ-LZ,wt_B-cell,6.0
+expanded behavior,-4.642583,6.783088,DZ-LZ,wt_B-cell,6.0
+expanded behavior,-5.720549,7.6346526,DZ-LZ,wt_B-cell,6.0
+expanded behavior,-4.0450926,7.819783,DZ-LZ,wt_B-cell,6.0
+expanded behavior,-2.8614438,7.835876,DZ-LZ,wt_B-cell,7.0
+expanded behavior,-1.6728166,7.8339376,DZ-LZ,wt_B-cell,8.0
+expanded behavior,-1.6146681,6.977718,DZ-LZ,wt_B-cell,8.0
+expanded behavior,-3.8146756,7.659305,DZ-LZ,wt_B-cell,8.0
+expanded behavior,-2.5456295,7.7253666,DZ-LZ,wt_B-cell,8.0
+expanded behavior,2.132133,11.856461,LZ,wt_B-cell,0.0
+expanded behavior,3.0430596,10.538644,LZ,wt_B-cell,0.0
+expanded behavior,-1.8013049,12.191806,LZ,wt_B-cell,0.0
+expanded behavior,-0.48286733,10.866442,LZ,wt_B-cell,0.0
+expanded behavior,1.8694513,10.905076,LZ,wt_B-cell,0.0
+expanded behavior,2.3514667,11.773959,LZ,wt_B-cell,0.0
+expanded behavior,0.8945271,13.234097,LZ,wt_B-cell,0.0
+expanded behavior,-0.027655693,13.233974,LZ,wt_B-cell,0.0
+expanded behavior,1.1308142,12.926805,LZ,wt_B-cell,0.0
+expanded behavior,1.8480117,12.071146,LZ,wt_B-cell,1.0
+expanded behavior,0.27992424,13.446751,LZ,wt_B-cell,1.0
+expanded behavior,0.6897188,10.159237,LZ,wt_B-cell,1.0
+expanded behavior,-1.0455848,12.001288,LZ,wt_B-cell,1.0
+expanded behavior,-0.426848,12.279304,LZ,wt_B-cell,1.0
+expanded behavior,2.2042158,11.273788,LZ,wt_B-cell,1.0
+expanded behavior,1.9184023,12.096966,LZ,wt_B-cell,1.0
+expanded behavior,-0.019979851,11.1472025,LZ,wt_B-cell,2.0
+expanded behavior,2.358086,11.418607,LZ,wt_B-cell,2.0
+expanded behavior,-2.1510046,12.182362,LZ,wt_B-cell,2.0
+expanded behavior,2.978962,9.414173,LZ,wt_B-cell,2.0
+expanded behavior,-0.5517101,13.073677,LZ,wt_B-cell,2.0
+expanded behavior,-1.6157689,11.581399,LZ,wt_B-cell,2.0
+expanded behavior,2.5951667,10.878524,LZ,wt_B-cell,2.0
+expanded behavior,0.09916662,11.758708,LZ,wt_B-cell,2.0
+expanded behavior,-0.20236641,12.278736,LZ,wt_B-cell,2.0
+expanded behavior,1.3793707,12.554959,LZ,wt_B-cell,2.0
+expanded behavior,1.3825314,10.426118,LZ,wt_B-cell,2.0
+expanded behavior,0.26997364,12.251426,LZ,wt_B-cell,2.0
+expanded behavior,-0.77292293,12.251342,LZ,wt_B-cell,2.0
+expanded behavior,1.3809674,12.712424,LZ,wt_B-cell,2.0
+expanded behavior,1.2976202,12.21864,LZ,wt_B-cell,2.0
+expanded behavior,-1.498515,11.924518,LZ,wt_B-cell,2.0
+expanded behavior,1.6589853,11.845319,LZ,wt_B-cell,2.0
+expanded behavior,0.6349512,13.038003,LZ,wt_B-cell,2.0
+expanded behavior,2.4440784,11.495629,LZ,wt_B-cell,2.0
+expanded behavior,1.4602435,12.070733,LZ,wt_B-cell,2.0
+expanded behavior,0.32423294,13.285247,LZ,wt_B-cell,2.0
+expanded behavior,3.3268232,10.853223,LZ,wt_B-cell,2.0
+expanded behavior,-1.2541587,11.829918,LZ,wt_B-cell,2.0
+expanded behavior,2.1746733,11.245213,LZ,wt_B-cell,2.0
+expanded behavior,-2.216788,11.97709,LZ,wt_B-cell,2.0
+expanded behavior,2.814916,9.769269,LZ,wt_B-cell,2.0
+expanded behavior,-1.5338026,12.635509,LZ,wt_B-cell,2.0
+expanded behavior,-1.7228237,11.575079,LZ,wt_B-cell,2.0
+expanded behavior,0.20856789,13.014992,LZ,wt_B-cell,2.0
+expanded behavior,-0.69097525,12.043789,LZ,wt_B-cell,2.0
+expanded behavior,0.44581562,12.660976,LZ,wt_B-cell,2.0
+expanded behavior,-1.6145604,11.4362545,LZ,wt_B-cell,2.0
+expanded behavior,2.726569,11.112322,LZ,wt_B-cell,2.0
+expanded behavior,0.37281454,11.154315,LZ,wt_B-cell,2.0
+expanded behavior,0.73781025,10.986567,LZ,wt_B-cell,3.0
+expanded behavior,1.3247908,9.665989,LZ,wt_B-cell,3.0
+expanded behavior,1.5951349,9.297277,LZ,wt_B-cell,3.0
+expanded behavior,3.0112715,10.069613,LZ,wt_B-cell,3.0
+expanded behavior,1.9081211,12.380458,LZ,wt_B-cell,3.0
+expanded behavior,1.0806718,10.598703,LZ,wt_B-cell,3.0
+expanded behavior,3.059485,10.193861,LZ,wt_B-cell,3.0
+expanded behavior,-0.859656,11.5234995,LZ,wt_B-cell,4.0
+expanded behavior,1.4176346,10.49773,LZ,wt_B-cell,4.0
+expanded behavior,0.27578554,11.453769,LZ,wt_B-cell,4.0
+expanded behavior,0.3710856,10.203348,LZ,wt_B-cell,4.0
+expanded behavior,-0.12774386,10.368629,LZ,wt_B-cell,4.0
+expanded behavior,3.1123888,9.160565,LZ,wt_B-cell,4.0
+expanded behavior,-1.6322424,12.020336,LZ,wt_B-cell,4.0
+expanded behavior,3.5399218,10.239653,LZ,wt_B-cell,5.0
+expanded behavior,3.170299,9.537065,LZ,wt_B-cell,6.0
+expanded behavior,-1.5632678,11.251396,LZ,wt_B-cell,6.0
+expanded behavior,0.1330708,10.983621,LZ,wt_B-cell,6.0
+expanded behavior,2.310013,10.4577465,LZ,wt_B-cell,6.0
+expanded behavior,0.32984918,11.706953,LZ,wt_B-cell,6.0
+expanded behavior,0.063812345,10.224402,LZ,wt_B-cell,6.0
+expanded behavior,-1.0839058,10.893218,LZ,wt_B-cell,6.0
+expanded behavior,3.5942998,9.985026,LZ,wt_B-cell,6.0
+expanded behavior,-0.6929031,13.29436,LZ,wt_B-cell,6.0
+expanded behavior,3.3708067,9.567506,LZ,wt_B-cell,8.0
