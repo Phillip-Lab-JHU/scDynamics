@@ -5,8 +5,6 @@ Python source code used for FDC-zone assignment, consolidation of Imaris exports
 - Tested operating system: Microsoft Windows
 - Tested Python: 3.9.25 (Conda environment `py39`)
 - No non-standard hardware is required for the included demonstrations.
-- GPU/OpenCL-capable hardware may accelerate image processing with `pyclesperanto-prototype`, but was not tested as part of this package.
-- Imaris is third-party software used upstream to create CSV exports consumed by `02_merge_imaris_exports.py`; Imaris is not distributed here.
 
 The tested package versions are recorded in `environment.yml`. On a normal desktop computer, creating the complete environment may take approximately 10-30 minutes, depending on network speed. This estimate has not been independently benchmarked on a clean computer.
 
